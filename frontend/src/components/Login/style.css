@@ -1,0 +1,41 @@
+.login-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.64);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.login-box {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 30px;
+  padding: 15px 15px;
+  border-radius: 15px;
+  background: white;
+}
+
+.login-box input[type="text"],
+.login-box input[type="password"],
+.login-box input[type="submit"] {
+  width: calc(100% - 30px);
+  padding: 10px;
+  border-radius: 99px;
+  font-size: 16px;
+  color: rgb(32, 32, 224);
+  text-align: center;
+  outline: none;
+}
+
+.login-box input[type="submit"] {
+  display: block;
+  cursor: pointer;
+  background: rgb(32, 32, 224);
+  color: white;
+}
