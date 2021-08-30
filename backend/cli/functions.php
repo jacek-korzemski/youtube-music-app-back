@@ -27,3 +27,34 @@ function cli_update_channels_list()
   $s->updateChannelsList();
   return;
 }
+
+function cli_build_channel($channel_id, $page = false)
+{
+  $s = new Youtube();
+  ob_start();
+  if ($page)
+  {
+    $s->updateChannel($channel_id, $page);
+  }
+  else
+  {
+    $s->updateChannel($channel_id);
+  }
+  $result = ob_get_contents();
+  ob_end_clean();
+
+  // display to console, then process, check if there is another page, and run again.
+  echo $result . "\n";
+
+  $result = json_decode($result);
+  if ($result->{'next-page'})
+  {
+    cli_build_channel($channel_id, $result->{'next-page'});
+    return;
+  }
+  else
+  {
+    return '{"status": 200, "message": "It looks like the channel has successfuly build."}';
+  }
+  return;
+}

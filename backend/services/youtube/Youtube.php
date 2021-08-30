@@ -92,7 +92,7 @@ class Youtube
       $this->db->query($query);
       if (!$silent)
       {
-        header('Content-Type: application/json');
+        // header('Content-Type: application/json');
         if (isset($data) && isset($data->nextPageToken)) {
           echo '{"status": 200, "message": "update success", "next-page": "'.$data->nextPageToken.'"}';
           return;

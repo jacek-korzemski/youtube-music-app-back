@@ -7,8 +7,11 @@ require_once "functions.php";
 // initialize options for CLI
 // a          - actions
 // id         - id of video, channel, user etc.
-// opt1, opt2 - optional parameters, in case I'd need them
-$options = getopt("a:id:opt1:opt2");
+$shortopts = "a:";
+$longopts  = array(
+  "id:",
+);
+$options  = getopt($shortopts, $longopts);
 
 if (isset($options['a']))
 {
@@ -23,6 +26,8 @@ if (isset($options['a']))
     case "update_channels":
       cli_update_channels_list();
       break;
+    case 'build_channel':
+      cli_build_channel($options['id']);
     default:
       echo 'Invalid actions. To see the action list, simply run php index.php without arguments.';
       break;
