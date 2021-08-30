@@ -24,19 +24,22 @@ class Youtube
 
   public function updateAllChannels()
   {
+    $counter_before = $this->db->query('SELECT COUNT(*) FROM `music`;')->fetchArray()['COUNT(*)'];
     $channels_list = $this->db->query('SELECT * FROM `channels`')->fetchAll();
     foreach ($channels_list as $channel)
     {
       $this->updateChannel($channel['channel_id'], false, true);
     }
+    $counter_after = $this->db->query('SELECT COUNT(*) FROM `music`;')->fetchArray()['COUNT(*)'];
+    $counter = $counter_after - $counter_before;
     header('Content-Type: application/json');
-    echo '{"status": 200, "message": "Channels updated successfully."}';
+    echo '{"status": 200, "message": "Channels updated successfully.", "newRecords": '.$counter.'}';
   }
 
   public function updateChannel($channel_id, $next_page = false, $silent = false, $validate_query = false)
   {
     $data = $this->getChannelData($channel_id, $next_page);
-    if (!is_object($data)) {
+    if (!is_object($data) && !$silent) {
       echo 'no object: ' . $data;
       return;
     }
