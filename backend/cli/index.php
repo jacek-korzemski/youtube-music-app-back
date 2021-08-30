@@ -28,6 +28,7 @@ if (isset($options['a']))
       break;
     case 'build_channel':
       cli_build_channel($options['id']);
+      break;
     default:
       echo 'Invalid actions. To see the action list, simply run php index.php without arguments.';
       break;
