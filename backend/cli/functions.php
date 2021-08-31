@@ -30,6 +30,11 @@ function cli_update_channels_list()
 
 function cli_build_channel($channel_id, $page = false)
 {
+  if (!$channel_id)
+  {
+    echo "\n\n Missing id parameter. Make sure you typed \"--id\" insted of \"-id\", and try again.";
+    return;
+  }
   $s = new Youtube();
   ob_start();
   if ($page)

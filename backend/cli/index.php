@@ -43,11 +43,12 @@ else
     without using your browser, you can simply use the CLI to get what you need done.
 
     Here are some usefull commands:
-      -a update -id <channel_id>      : use to update single channel via Youtube api (with your key from .env file)
-      -a update_all                   : use to update all channels registred in your database
-      -a update_channels              : use to update your channels list based on `music` table
-      -a get_video -id <video_id>     : TODO - get data of a single record from a `music` table
-      -a get_channel -id <channel_id> : TODO - get all records from a selected channel
+      -a update -id <channel_id>        : use to update single channel via Youtube api (with your key from .env file)
+      -a update_all                     : use to update all channels registred in your database
+      -a update_channels                : use to update your channels list based on `music` table
+      -a build_channel -id <channel_id> : use to get all videos from selected channel
+      -a get_video -id <video_id>       : TODO - get data of a single record from a `music` table
+      -a get_channel -id <channel_id>   : TODO - get all records from a selected channel
   ';
 }
 
