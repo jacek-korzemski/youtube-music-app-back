@@ -89,6 +89,12 @@ function cli_get_channel($id)
   else 
   {
     $s = new Youtube();
-    $s->getAllVideosFromChannel($id);
+    echo $s->getAllVideosFromChannel($id);
   }
+}
+
+function cli_get_all_channels()
+{
+  $s = new Youtube();
+  echo $s->getAllChannels();
 }

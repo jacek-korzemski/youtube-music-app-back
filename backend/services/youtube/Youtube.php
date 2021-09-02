@@ -36,7 +36,8 @@ class Youtube
 
   public function updateChannel($channel_id, $next_page = false)
   {
-    $data = $this->getChannelData($channel_id, $next_page);
+    $real_id = $this->db->query("SELECT * FROM `channels` WHERE id = \"$channel_id\"")->fetchAll()[0]["channel_id"];
+    $data = $this->getChannelData($real_id, $next_page);
     if (!is_object($data) && !$silent) {
       echo 'no object: ' . $data;
       return;
@@ -124,6 +125,12 @@ class Youtube
   {
     $video = $this->db->query("SELECT * FROM `music` WHERE `id` = $id")->fetchAll()[0];
     return '{"code": 200, "status": "success", "message": "Successfully fetched video data with id: '.$id.'". "video": '.json_encode($video).'}';
+  }
+
+  public function getAllChannels()
+  {
+    $channels = $this->db->query("SELECT * FROM `channels`")->fetchAll();
+    return '{"code": 200, "status": "success", "message": "Successfully fetched all channels data.", "channels": '.$this->buildJsonResponse($channels).'}';
   }
 
   private function getChannelData($channel_id, $next_page = false)

@@ -48,6 +48,9 @@ if (isset($options['a']))
       $id   =   isset($options['id'])                ?   $options['id']     : false;
       cli_get_channel($id);
       break;
+    case 'get_all_channels':
+      cli_get_all_channels();
+      break;
     default:
       echo 'Invalid actions. To see the action list, simply run php index.php without arguments.';
       break;
