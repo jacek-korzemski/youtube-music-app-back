@@ -5,7 +5,6 @@ use Engine\src\Db;
 class Youtube
 {
   protected $db;
-  protected $auth;
   private $key;
 
   public function __construct()
@@ -14,11 +13,11 @@ class Youtube
     {
       $this->key  = $_SERVER['YOUTUBE_API_KEY'];
       $this->db   = new Db();
-      $this->auth = new Auth();
     }
     else
     {
       throw new Error ('There is no Youtube api key declared in .env file, or the .env file is not readable.');
+      exit;
     }
   }
 
@@ -32,11 +31,10 @@ class Youtube
     }
     $counter_after = $this->db->query('SELECT COUNT(*) FROM `music`;')->fetchArray()['COUNT(*)'];
     $counter = $counter_after - $counter_before;
-    header('Content-Type: application/json');
-    echo '{"status": 200, "message": "Channels updated successfully.", "newRecords": '.$counter.'}';
+    return '{"code": 200, "status": "success", "message": "Channels updated successfully.", "newRecords": '.$counter.'}';
   }
 
-  public function updateChannel($channel_id, $next_page = false, $silent = false, $validate_query = false)
+  public function updateChannel($channel_id, $next_page = false)
   {
     $data = $this->getChannelData($channel_id, $next_page);
     if (!is_object($data) && !$silent) {
@@ -86,29 +84,11 @@ class Youtube
         $query = preg_replace("/, ;/i", ";", $query);
         $query = preg_replace("/, ,/i", ",", $query);
       }
-      if ($validate_query) {
-        echo 'query: ' . $query . "\n\n"; 
-      }
       $this->db->query($query);
-      if (!$silent)
-      {
-        // header('Content-Type: application/json');
-        if (isset($data) && isset($data->nextPageToken)) {
-          echo '{"status": 200, "message": "update success", "next-page": "'.$data->nextPageToken.'"}';
-          return;
-        }
-        echo '{"status": 200, "message": "update success", "next-page": null}';
-        return;
+      if (isset($data) && isset($data->nextPageToken)) {
+        return '{"code": 200, "status": "success", "message": "update success", "next-page": "'.$data->nextPageToken.'"}';
       }
-    }
-    else 
-    {
-      if (!$silent)
-      {
-        header('Content-Type: application/json');
-        echo '{"status": 400, "message": "update failed", "next-page": null}';
-        return;
-      }
+      return '{"code": 200, "status": "success", "message": "update success", "next-page": null}';
     }
   }
 
@@ -119,9 +99,31 @@ class Youtube
       channel_id, channel_title FROM `music` GROUP BY
       channel_id, channel_title HAVING COUNT(*) > 1;
     ');
-    header('Content-Type: application/json');
-    echo '{"status": 200, "message": "Channels list updated"}';
-    return true;
+    return '{"code": 200, "status": "success", "message": "Channels list updated"}';
+  }
+
+  public function getAllVideos()
+  {
+    $videos = $this->db->query('SELECT * FROM `music`;')->fetchAll();
+    return '{"code": 200, "status": "success", "message": "Successfully fetched all videos". "items": '.$this->buildJsonResponse($videos).'}';
+  }
+
+  public function getAllVideosFromChannel($channel)
+  {
+    $videos = $this->db->query("SELECT * FROM `music` WHERE channel_id = \"$channel\";")->fetchAll();
+    return '{"code": 200, "status": "success", "message": "Successfully fetched all videos from channel with id: '.$channel.'.", "items": '.$this->buildJsonResponse($videos).'}';
+  }
+
+  public function getVideos($from, $to)
+  {
+    $videos = $this->db->query("SELECT * FROM `music` WHERE `id` BETWEEN $from and $to")->fetchAll();
+    return '{"code": 200, "status": "success", "message": "Successfully fetched all videos from id: '.$from.' to id: '.$to.'". "items": '.$this->buildJsonResponse($videos).'}';
+  }
+
+  public function getVideo($id)
+  {
+    $video = $this->db->query("SELECT * FROM `music` WHERE `id` = $id")->fetchAll()[0];
+    return '{"code": 200, "status": "success", "message": "Successfully fetched video data with id: '.$id.'". "video": '.json_encode($video).'}';
   }
 
   private function getChannelData($channel_id, $next_page = false)
@@ -143,8 +145,23 @@ class Youtube
     else
     { 
       error_log(date('Y-m-d h:i') . " - The API key is used enough for today. Try again tomorow. \n", 3, __DIR__ . "/../../logs/errors.log");
-      header('Content-Type: application/json');
-      return '{"status": 500, "message": "It seems, that your API key is used enough for today. Try again tomorow.", "next-page": null}';
+      return '{"code": 500, "status": "error", "message": "It seems, that your API key is used enough for today. Try again tomorow.", "next-page": null}';
     }
+  }
+
+  private function buildJsonResponse($array)
+  {
+    $result  = "";
+    $result .= "[";
+    foreach ($array as $item)
+    {
+      $result .= json_encode($item);
+      if (next($array))
+      {
+        $result .= ", \n";
+      }
+    }
+    $result .= "]";
+    return $result;
   }
 }

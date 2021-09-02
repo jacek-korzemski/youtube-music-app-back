@@ -5,50 +5,35 @@ function cli_update_channel($channel_id)
   if ($channel_id)
   {
     $s = new Youtube();
-    $s->updateChannel($channel_id);
-    return;
+    echo $s->updateChannel($channel_id);
   }
   else
   {
-    throw new Error ('Missing channel id. Cannot perform update.');
+    echo "Missing id parameter. Make sure you typed \"--id\" insted of \"-id\", and try again. ";
   }
 }
 
 function cli_update_all_channels()
 {
   $s = new Youtube();
-  $s->updateAllChannels();
-  return;
+  echo $s->updateAllChannels();
 }
 
 function cli_update_channels_list()
 {
   $s = new Youtube();
-  $s->updateChannelsList();
-  return;
+  echo $s->updateChannelsList();
 }
 
 function cli_build_channel($channel_id, $page = false)
 {
   if (!$channel_id)
   {
-    echo "\n\n Missing id parameter. Make sure you typed \"--id\" insted of \"-id\", and try again.";
+    echo "Missing id parameter. Make sure you typed \"--id\" insted of \"-id\", and try again. ";
     return;
   }
   $s = new Youtube();
-  ob_start();
-  if ($page)
-  {
-    $s->updateChannel($channel_id, $page);
-  }
-  else
-  {
-    $s->updateChannel($channel_id);
-  }
-  $result = ob_get_contents();
-  ob_end_clean();
-
-  // display to console, then process, check if there is another page, and run again.
+  $result = $s->updateChannel($channel_id, $page);
   echo $result . "\n";
 
   $result = json_decode($result);
@@ -59,8 +44,51 @@ function cli_build_channel($channel_id, $page = false)
   }
   else
   {
-    echo '{"status": 200, "message": "It looks like the channel has successfuly build."}';
+    echo "\nIt looks like the channel has successfuly build.";
     cli_update_all_channels();
   }
-  return;
+}
+
+function cli_get_videos($from, $to, $all = false)
+{
+  if ($all)
+  {
+    $s = new Youtube();
+    echo $s->getAllVideos();
+  }
+  else if ($from && $to)
+  {
+    $s = new Youtube();
+    echo $s->getVideos($from, $to);
+  }
+  else
+  {
+    echo " Missing parameters. Try --all to get all videos, or --from <number_1> --to <number_2> to select videos between selected IDs. ";
+  }
+}
+
+function cli_get_video($id)
+{
+  if (!$id)
+  {
+    echo 'Missing --id <number> parameter.';
+  }
+  else
+  {
+    $s = new Youtube();
+    echo $s->getVideo($id);
+  }
+}
+
+function cli_get_channel($id)
+{
+  if (!$id)
+  {
+    echo 'Missing --id <channel_id> parameter.';
+  }
+  else 
+  {
+    $s = new Youtube();
+    $s->getAllVideosFromChannel($id);
+  }
 }

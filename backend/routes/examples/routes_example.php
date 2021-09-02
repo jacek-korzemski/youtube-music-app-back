@@ -5,6 +5,7 @@ DO NOT INCLUDE THIS FILE!
 */
 
 throw new Error("You've included the file that should not be included!");
+exit;
 
 // Default index page
 router('GET', '^/$', function() {

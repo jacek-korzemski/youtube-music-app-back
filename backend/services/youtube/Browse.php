@@ -1,10 +1,34 @@
 <?php 
 
-class Browse extends Youtube
+use Engine\src\Db;
+
+//
+// ONE
+// HUGE
+// TO-DO
+// TO-REFACTOR
+// TO-FIX
+// TO... die? maybe.
+//
+
+class Browse
 {
+  public function __construct()
+  {
+    if (isset($_SERVER['YOUTUBE_API_KEY']))
+    {
+      $this->key  = $_SERVER['YOUTUBE_API_KEY'];
+      $this->db   = new Db();
+      $this->auth = new Auth();
+    }
+    else
+    {
+      throw new Error ('There is no Youtube api key declared in .env file, or the .env file is not readable.');
+    }
+  }
+
   public function getChannelByName($channel, $userId, $token)
   {
-    header('Content-Type: application/json');
     if (!isset($channel))
     {
       echo '{"status": "error", "message": "Missing params."}';
@@ -22,7 +46,6 @@ class Browse extends Youtube
 
   public function getChannelById($channel, $userId, $token)
   {
-    header('Content-Type: application/json');
     if (!isset($channel))
     {
       echo '{"status": "error", "message": "Missing params."}';
@@ -40,7 +63,6 @@ class Browse extends Youtube
 
   public function getVideo($video, $userId, $token)
   {
-    header('Content-Type: application/json');
     if (!isset($video))
     {
       echo '{"status": "error", "message": "Missing params."}';

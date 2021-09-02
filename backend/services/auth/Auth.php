@@ -34,17 +34,16 @@ class Auth
           'tokenHash'   => $token['token'],
           'tokenExpire' => $token['expiredDate']
         ];
-        header('Content-Type: application/json');
         return json_encode($return);   
       } 
       else 
       {
-        throw new Error ('Incorect username or password.');
+        return '{"code": 500, "status": "error", "message": "Something went wrong during the authentication process. Please try again later."}';
       } 
     } 
     else 
     {
-      throw new Error ('Incorect username or password.');
+      return '{"code": 401, "status": "error", "message": "Invalid login or password."}';
     }
   }
 
@@ -53,24 +52,21 @@ class Auth
     $db_token = $this->db->query("SELECT * FROM `tokens` WHERE `userId` = ?", array($userId))->fetchArray();
 
     if (count($db_token) == 0) {
-      header('Content-Type: application/json');
-      return '{"status": "error", "message": "user was already logged out."}';
+      return '{"code": 401, "status": "error", "message": "Wser was already logged out."}';
     }
 
     if ($db_token['token'] != $client_token)
     {
-      header('Content-Type: application/json');
-      return '{"status": "error", "message": "Cannot execute request. User tokken did not match."}';
+      return '{"code": 401, "status": "error", "message": "Invalid auth token."}';
     }
 
     if ($db_token['token'] == $client_token)
     {
       $this->db->query('DELETE FROM `tokens` WHERE `tokens`.`id` = ?', array($db_token['id']));
-      header('Content-Type: application/json');
-      return '{"status": "success", "message": "user loged out."}';
+      return '{"code": 200, "status": "success", "message": "User loged out."}';
     }
 
-    throw new Error ('Something went terribly wrong during logout...');
+    return '{"code": 999, "status": "error", "message": "Something went terribly wrong during the logout..."}';
   }
 
   public function checkToken($userId, $client_token, $internal = false)
@@ -84,8 +80,7 @@ class Auth
       }
       else 
       {
-        header('Content-Type: application/json');
-        return '{"status": "error", "message": "User is not logged in.", "action": null}';
+        return '{"code": 401, "status": "error", "message": "User is not logged in.", "action": null}';
       }
     }
 
@@ -98,8 +93,7 @@ class Auth
       }
       else 
       {
-        header('Content-Type: application/json');
-        return '{"status": "error", "message": "Token has expired. User logged out.", "action": "logout"}';
+        return '{"code": 401, "status": "error", "message": "Token has expired. User logged out.", "action": "logout"}';
       }
     }
 
@@ -112,8 +106,7 @@ class Auth
       }
       else 
       {
-        header('Content-Type: application/json');
-        return '{"status": "success", "message": "Token is still valid.", "action": "pass"}';
+        return '{"code": 200, "status": "success", "message": "Token is still valid.", "action": "pass"}';
       }
     }
   }
@@ -127,11 +120,6 @@ class Auth
     }
     else 
     {
-      throw new Error (
-        "You should define your token expire time in your .env file. 
-        Right now, it's not defined. 
-        Setting to default expire time: 60 minutes.
-      ");
       $timestamp = strtotime(date('Y-m-d H:i')) + 60*60;
     }
     $expire = date('Y-m-d H:i', $timestamp);
