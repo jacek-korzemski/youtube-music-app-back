@@ -59,7 +59,8 @@ function cli_build_channel($channel_id, $page = false)
   }
   else
   {
-    return '{"status": 200, "message": "It looks like the channel has successfuly build."}';
+    echo '{"status": 200, "message": "It looks like the channel has successfuly build."}';
+    cli_update_all_channels();
   }
   return;
 }
