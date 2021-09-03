@@ -98,3 +98,9 @@ function cli_get_all_channels()
   $s = new Youtube();
   echo $s->getAllChannels();
 }
+
+function cli_clear_database()
+{
+  $s = new Youtube();
+  echo $s->__clearDatabaseFromTrashyRecords();
+}

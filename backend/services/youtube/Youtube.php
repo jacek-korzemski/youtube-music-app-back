@@ -27,7 +27,7 @@ class Youtube
     $channels_list = $this->db->query('SELECT * FROM `channels`')->fetchAll();
     foreach ($channels_list as $channel)
     {
-      $this->updateChannel($channel['channel_id'], false, true);
+      $this->updateChannel($channel['id'], false, true);
     }
     $counter_after = $this->db->query('SELECT COUNT(*) FROM `music`;')->fetchArray()['COUNT(*)'];
     $counter = $counter_after - $counter_before;
@@ -123,14 +123,40 @@ class Youtube
 
   public function getVideo($id)
   {
-    $video = $this->db->query("SELECT * FROM `music` WHERE `id` = $id")->fetchAll()[0];
-    return '{"code": 200, "status": "success", "message": "Successfully fetched video data with id: '.$id.'". "video": '.json_encode($video).'}';
+    $video = $this->db->query("SELECT * FROM `music` WHERE `id` = $id")->fetchAll();
+    if (is_array($video))
+    {
+      return '{"code": 200, "status": "success", "message": "Successfully fetched video data with id: '.$id.'". "video": '.json_encode($video).'}';
+    }
+    else
+    {
+      return '{"code": 404, "status": "error", "message": "Video with id: '.$id.' does not exist.", "video": '.json_encode($video).'}';
+    }
   }
 
   public function getAllChannels()
   {
     $channels = $this->db->query("SELECT * FROM `channels`")->fetchAll();
     return '{"code": 200, "status": "success", "message": "Successfully fetched all channels data.", "channels": '.$this->buildJsonResponse($channels).'}';
+  }
+
+  public function __clearDatabaseFromTrashyRecords()
+  {
+    $channels = $this->db->query("SELECT * FROM `channels`")->fetchAll();
+    $query    = 'DELETE FROM `music` WHERE channel_id NOT IN (';
+
+    foreach ($channels as $channel)
+    {
+      $query .= '"'.$channel['channel_id'].'"';
+      if (next($channels))
+      {
+        $query .= ",";
+      }
+    }
+
+    $query .= "); \n";
+    $this->db->query($query);
+    echo "Deleted records: " . $this->db->affectedRows();
   }
 
   private function getChannelData($channel_id, $next_page = false)

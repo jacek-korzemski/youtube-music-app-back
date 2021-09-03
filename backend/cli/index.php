@@ -51,6 +51,9 @@ if (isset($options['a']))
     case 'get_all_channels':
       cli_get_all_channels();
       break;
+    case 'clear_database':
+      cli_clear_database();
+      break;
     default:
       echo 'Invalid actions. To see the action list, simply run php index.php without arguments.';
       break;
@@ -65,12 +68,18 @@ else
     without using your browser, you can simply use the CLI to get what you need done.
 
     Here are some usefull commands:
+      UPDATE:
       -a update --id <channel_id>        : use to update single channel via Youtube api (with your key from .env file)
       -a update_all                      : use to update all channels registred in your database
       -a update_channels                 : use to update your channels list based on `music` table
       -a build_channel --id <channel_id> : use to get all videos from selected channel
+
+      GET:
       -a get_video --id <video_id>       : use to get data of a single record from a `music` table
       -a get_channel --id <channel_id>   : use to get all records from a selected channel
+
+      CLEAR:
+      -a clear_database                  : usu to delete all records from `music` that has channel that\'s not in `channels` table.
   ';
 }
 
