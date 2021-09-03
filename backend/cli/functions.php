@@ -5,7 +5,8 @@ function cli_update_channel($channel_id)
   if ($channel_id)
   {
     $s = new Youtube();
-    echo $s->updateChannel($channel_id);
+    echo $s->updateChannel($channel_id) . "\n";
+    cli_clear_database();
   }
   else
   {
@@ -16,7 +17,8 @@ function cli_update_channel($channel_id)
 function cli_update_all_channels()
 {
   $s = new Youtube();
-  echo $s->updateAllChannels();
+  echo $s->updateAllChannels() . "\n";
+  cli_clear_database();
 }
 
 function cli_update_channels_list()
