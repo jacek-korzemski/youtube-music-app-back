@@ -106,3 +106,9 @@ function cli_clear_database()
   $s = new Youtube();
   echo $s->__clearDatabaseFromTrashyRecords();
 }
+
+function cli_clear_404()
+{
+  $s = new Youtube();
+  echo $s->__clearDatabaseFrom404Records();
+}

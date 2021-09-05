@@ -159,6 +159,29 @@ class Youtube
     echo "Deleted records: " . $this->db->affectedRows();
   }
 
+  public function __clearDatabaseFrom404Records()
+  {
+    $videos = $this->db->query("SELECT * FROM `music`")->fetchAll();
+    $delete_counter = 0;
+    $restore_counter = 0;
+    foreach ($videos as $video)
+    {
+      if (get_headers($video['default_thumbnail'], 1)[0] != "HTTP/1.1 200 OK")
+      {
+        $delete_counter++;
+        $this->db->query('UPDATE `music` SET hide = 1 WHERE id = '. $video['id']);
+        echo $video['id'] . " - deleted becouse of ".get_headers($video['default_thumbnail'], 1)[0]." \n";
+      }
+      if (get_headers($video['default_thumbnail'], 1)[0] == "HTTP/1.1 200 OK" && $video['hide'] == 1)
+      {
+        $restore_counter++;
+        $this->db->query('UPDATE `music` SET hide = NULL WHERE id = '. $video['id']);
+        echo $video['id'] . " - restored becouse of ".get_headers($video['default_thumbnail'], 1)[0]." \n";
+      }
+    }
+    echo "deleted: $delete_counter records. \n restored: $restore_counter records. \n";
+  }
+
   private function getChannelData($channel_id, $next_page = false)
   {
     $api_url = 'https://www.googleapis.com/youtube/v3/search?order=date&part=snippet';

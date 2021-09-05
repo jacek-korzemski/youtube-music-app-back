@@ -54,6 +54,9 @@ if (isset($options['a']))
     case 'clear_database':
       cli_clear_database();
       break;
+    case 'clear_404':
+      cli_clear_404();
+      break;
     default:
       echo 'Invalid actions. To see the action list, simply run php index.php without arguments.';
       break;
@@ -79,7 +82,8 @@ else
       -a get_channel --id <channel_id>   : use to get all records from a selected channel
 
       CLEAR:
-      -a clear_database                  : usu to delete all records from `music` that has channel that\'s not in `channels` table.
+      -a clear_database                  : use to delete all records from `music` that has channel that\'s not in `channels` table.
+      -a clear_404                       : use to delete all records from `music` that is no longer hosted on youtube.
   ';
 }
 
