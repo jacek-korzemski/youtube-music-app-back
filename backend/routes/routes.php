@@ -1,10 +1,10 @@
 <?php 
 
-include 'auth/auth_routes.php';
-include 'services/youtube.php';
+include 'auth/auth.php';
+include 'services/browse.php';
 
 // Testing index page
 route('GET', '^/$', function() {
   header('Content-Type: application/json');
-  echo '{"message": "Everything seems working fine.", "status":200}';
+  echo '{"code": 200, "status": "success", "message": "everything seems to work fine."}';
 });
