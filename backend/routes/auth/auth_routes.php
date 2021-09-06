@@ -12,6 +12,12 @@ route('POST', '^/logout$', function() {
   echo $l->logout($_POST['userId'], $_POST['token']);
 });
 
+route('POST', '^/updateToken', function() {
+  $l = new Auth();
+  header('Content-Type: application/json');
+  echo $l->updateToken($_POST['userId'], $_POST['token']);
+});
+
 route('POST', '^/auth$', function() {
   $l = new Auth();
   header('Content-Type: application/json');

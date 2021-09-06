@@ -5,7 +5,7 @@ use Engine\src\Db;
 class Youtube
 {
   protected $db;
-  private $key;
+  protected $key;
 
   public function __construct()
   {
@@ -118,7 +118,7 @@ class Youtube
   public function getVideos($from, $to)
   {
     $videos = $this->db->query("SELECT * FROM `music` WHERE `id` BETWEEN $from and $to")->fetchAll();
-    return '{"code": 200, "status": "success", "message": "Successfully fetched all videos from id: '.$from.' to id: '.$to.'". "items": '.$this->buildJsonResponse($videos).'}';
+    return '{"code": 200, "status": "success", "message": "Successfully fetched all videos from id: '.$from.' to id: '.$to.'", "items": '.$this->buildJsonResponse($videos).'}';
   }
 
   public function getVideo($id)
@@ -126,7 +126,7 @@ class Youtube
     $video = $this->db->query("SELECT * FROM `music` WHERE `id` = $id")->fetchAll();
     if (is_array($video))
     {
-      return '{"code": 200, "status": "success", "message": "Successfully fetched video data with id: '.$id.'". "video": '.json_encode($video).'}';
+      return '{"code": 200, "status": "success", "message": "Successfully fetched video data with id: '.$id.'", "video": '.json_encode($video).'}';
     }
     else
     {

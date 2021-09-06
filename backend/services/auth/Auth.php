@@ -34,7 +34,7 @@ class Auth
           'tokenHash'   => $token['token'],
           'tokenExpire' => $token['expiredDate']
         ];
-        return json_encode($return);   
+        return '{"code": 200, "status": "success", "message": "successfully loged in.", "data": '.json_encode($return).'}';   
       } 
       else 
       {
@@ -69,45 +69,23 @@ class Auth
     return '{"code": 999, "status": "error", "message": "Something went terribly wrong during the logout..."}';
   }
 
-  public function checkToken($userId, $client_token, $internal = false)
+  public function checkToken($userId, $client_token)
   {
     $db_token = $this->db->query("SELECT * FROM `tokens` WHERE `userId` = ?", array($userId))->fetchArray();
 
     if (count($db_token) == 0) {
-      if ($internal) 
-      {
-        return false;
-      }
-      else 
-      {
-        return '{"code": 401, "status": "error", "message": "User is not logged in.", "action": null}';
-      }
+      return '{"code": 401, "status": "error", "message": "User is not logged in.", "action": null}';
     }
 
     if ($db_token['expiredDate'] < date('Y-m-d H:i:s'))
     {
       $this->db->query('DELETE FROM `tokens` WHERE `tokens`.`id` = ?', array($db_token['id']));
-      if ($internal) 
-      {
-        return false;
-      }
-      else 
-      {
-        return '{"code": 401, "status": "error", "message": "Token has expired. User logged out.", "action": "logout"}';
-      }
+      return '{"code": 401, "status": "error", "message": "Token has expired. User logged out.", "action": "logout"}';
     }
 
     if ($db_token['expiredDate'] >= date('Y-m-d H:i'))
     {
-      $this->updateToken($db_token['userId']);
-      if ($internal) 
-      {
-        return true;
-      }
-      else 
-      {
-        return '{"code": 200, "status": "success", "message": "Token is still valid.", "action": "pass"}';
-      }
+      return '{"code": 200, "status": "success", "message": "Token is still valid.", "action": "pass"}';
     }
   }
 
@@ -127,5 +105,6 @@ class Auth
       'INSERT into `tokens` (`id`, `userId`, `token`, `expiredDate`) VALUES (?, ?, ?, ?)',
       array(null, $id, $randHash, $expire)
     );
+    return '{"code": 200, "status": "success", "message": "Token successfully updated", "tokenData": '.json_encode($new_token_response).'}';
   }
 }
