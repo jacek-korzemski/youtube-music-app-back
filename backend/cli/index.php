@@ -4,17 +4,7 @@ require_once __DIR__ . '/../engine/engine.php';
 require_once __DIR__ . '/../services/services.php';
 require_once "functions.php";
 
-// initialize options for CLI
-// a          - actions
-// id         - id of video, channel, user etc.
-$shortopts = "a:";
-$longopts  = array(
-  "id:",
-  "from:",
-  "to:",
-  "all"
-);
-$options  = getopt($shortopts, $longopts);
+$options  = getopt("a:", ["id:", "from:", "to:", "all"]);
 
 if (isset($options['a']))
 {
@@ -58,7 +48,7 @@ if (isset($options['a']))
       cli_clear_404();
       break;
     default:
-      echo 'Invalid actions. To see the action list, simply run php index.php without arguments.';
+      echo 'Invalid action. To see the action list, simply run php index.php without arguments.';
       break;
   }
 }
@@ -67,15 +57,15 @@ else
   echo 
   '
     Welcome in Youtube_Music_App Command Line Interface. 
-    If you want to update single channel, or get some data of single video
-    without using your browser, you can simply use the CLI to get what you need done.
-
     Here are some usefull commands:
+
+      BUILD:
+      -a build_channel --id <channel_id> : use to get all videos from selected channel
+
       UPDATE:
       -a update --id <channel_id>        : use to update single channel via Youtube api (with your key from .env file)
       -a update_all                      : use to update all channels registred in your database
       -a update_channels                 : use to update your channels list based on `music` table
-      -a build_channel --id <channel_id> : use to get all videos from selected channel
 
       GET:
       -a get_video --id <video_id>       : use to get data of a single record from a `music` table
