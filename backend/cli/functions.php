@@ -6,7 +6,6 @@ function cli_update_channel($channel_id)
   {
     $s = new Youtube();
     echo $s->updateChannel($channel_id) . "\n";
-    cli_clear_database();
   }
   else
   {
@@ -18,7 +17,6 @@ function cli_update_all_channels()
 {
   $s = new Youtube();
   echo $s->updateAllChannels() . "\n";
-  cli_clear_database();
 }
 
 function cli_update_channels_list()
@@ -31,7 +29,7 @@ function cli_build_channel($channel_id, $page = false)
 {
   if (!$channel_id)
   {
-    echo "Missing id parameter. Make sure you typed \"--id\" insted of \"-id\", and try again. ";
+    echo "Missing --id parameter. Make sure you typed \"--id\" insted of \"-id\", and try again. ";
     return;
   }
   $s = new Youtube();
@@ -65,7 +63,7 @@ function cli_get_videos($from, $to, $all = false)
   }
   else
   {
-    echo " Missing parameters. Try --all to get all videos, or --from <number_1> --to <number_2> to select videos between selected IDs. ";
+    echo "Missing parameters. Try --all to get all videos, or --from <number_1> --to <number_2> to select videos between selected IDs. ";
   }
 }
 
