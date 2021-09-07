@@ -162,11 +162,12 @@ export const PageWrapper = styled.div`
   .content {
     margin-top: 30px;
     width: calc(100% - 120px);
-    height: calc(100% - 160px);
+    height: calc(100% - 190px);
     background: rgba(0, 0, 0, 0.5);
     border-radius: 10px;
     border: 1px solid white;
     box-shadow: 1px 2px 3px rgba(0, 0, 0, 0.8);
     overflow-y: scroll;
+    padding: 30px;
   }
 `;
