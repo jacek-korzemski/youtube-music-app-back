@@ -1,21 +1,29 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import { MainMenuWrapper } from "./Wrappers";
 
 const MainMenu = () => {
   return (
     <MainMenuWrapper>
       <li>
-        <Link to="/new-clips">New clips</Link>
+        <NavLink to="/new-clips" activeClassName="active">
+          New clips
+        </NavLink>
       </li>
       <li>
-        <Link to="/channels">Channels</Link>
+        <NavLink to="/channels" activeClassName="active">
+          Channels
+        </NavLink>
       </li>
       <li>
-        <Link to="/top-clips">Top clips</Link>
+        <NavLink to="/top-clips" activeClassName="active">
+          Top clips
+        </NavLink>
       </li>
       <li>
-        <Link to="/reviews">Reviews</Link>
+        <NavLink to="/reviews" activeClassName="active">
+          Reviews
+        </NavLink>
       </li>
     </MainMenuWrapper>
   );

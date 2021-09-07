@@ -110,6 +110,12 @@ export const MainMenuWrapper = styled.ul`
       &:hover {
         border-bottom: 1px solid white;
       }
+      &.active {
+        color: red;
+        &:hover {
+          border-bottom: 1px solid red;
+        }
+      }
     }
   }
 `;
@@ -131,5 +137,36 @@ export const TermsMenuWrapper = styled.div`
       text-decoration: underline;
       cursor: pointer;
     }
+  }
+`;
+
+export const PageWrapper = styled.div`
+  width: calc(100% - 300px);
+  margin-left: 300px;
+  height: 100vh;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  .title {
+    margin-top: 30px;
+    font-size: 30px;
+    font-weight: 100;
+    padding-bottom: 5px;
+    border-bottom: 1px solid white;
+    color: white;
+    text-align: center;
+    width: fit-content;
+  }
+  .content {
+    margin-top: 30px;
+    width: calc(100% - 120px);
+    height: calc(100% - 160px);
+    background: rgba(0, 0, 0, 0.5);
+    border-radius: 10px;
+    border: 1px solid white;
+    box-shadow: 1px 2px 3px rgba(0, 0, 0, 0.8);
+    overflow-y: scroll;
   }
 `;

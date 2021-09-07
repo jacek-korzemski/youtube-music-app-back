@@ -2,6 +2,7 @@ import React from "react";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import SideBar from "./SideBar";
 import { Wrapper } from "./Wrappers";
+import NewClips from "views/NewClips";
 
 const AppWrapper = () => {
   return (
@@ -10,7 +11,7 @@ const AppWrapper = () => {
         <SideBar />
         <Switch>
           <Route path="/new-clips">
-            <div style={{ color: "white" }}>New clips</div>
+            <NewClips />
           </Route>
           <Route path="/channels">
             <div style={{ color: "white" }}>Channels</div>
