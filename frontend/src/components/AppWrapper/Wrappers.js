@@ -158,6 +158,7 @@ export const PageWrapper = styled.div`
     color: white;
     text-align: center;
     width: fit-content;
+    min-height: 40px;
   }
   .content {
     margin-top: 30px;
@@ -167,7 +168,7 @@ export const PageWrapper = styled.div`
     border-radius: 10px;
     border: 1px solid white;
     box-shadow: 1px 2px 3px rgba(0, 0, 0, 0.8);
-    overflow-y: scroll;
+    overflow-y: auto;
     padding: 30px;
   }
 `;

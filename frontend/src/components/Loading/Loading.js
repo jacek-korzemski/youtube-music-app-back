@@ -4,9 +4,9 @@ import "./Loading.css";
 const Loading = () => {
   return (
     <div className="loading-wrapper">
-      <div class="snippet" data-title=".dot-falling">
-        <div class="stage">
-          <div class="dot-falling"></div>
+      <div className="snippet" data-title=".dot-falling">
+        <div className="stage">
+          <div className="dot-falling"></div>
         </div>
       </div>
     </div>

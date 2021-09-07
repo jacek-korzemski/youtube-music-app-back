@@ -5,3 +5,9 @@ body {
   font-family: "Arial", sans-serif;
   font-size: 16px;
 }
+
+body i[class^="fi-"] {
+  display: inline-block;
+  -webkit-transform: translateY(8%);
+          transform: translateY(8%);
+}

@@ -22,6 +22,6 @@ route('GET', '^/getChannelById$', function() {
 route('GET', '^/getVideoById$', function() {
   $s = new Browse();
   header('Content-Type: application/json');
-  if (!isset($_GET['id'])) { $_GET['id'] = null; }
+  if (!isset($_GET['id'])) { $_GET['id'] = 1; }
   echo $s->getVideo($_GET['id']);
 });

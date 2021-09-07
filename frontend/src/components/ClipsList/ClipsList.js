@@ -7,7 +7,7 @@ const ClipsList = (props) => {
     <Wrapper>
       {props.data.map((elem, index) => (
         <Link to={"/clip/" + elem.id}>
-          <div className="item">
+          <div className="item" key={index}>
             <img src={elem.high_thumbnail} alt={elem.title} />
             <h2>{elem.title}</h2>
             <p className="channel">

@@ -45,14 +45,14 @@ class Browse
     {
       return '{"code": 404, "status": "error", "message": "Missing params. Nothing to show."}';
     }
-    $data = $this->db->query("SELECT * FROM `music` WHERE video_id=$video AND WHERE hide IS NULL")->fetchAll();
+    $data = $this->db->query("SELECT * FROM `music` WHERE id=$video AND hide IS NULL")->fetchAll();
     if (count($data) > 0) 
     {
-      return '{"code": 200, "status": "success", "message": "Successfully fetched video by id: '.$id.'", "items": '.json_encode($data).'}';
+      return '{"code": 200, "status": "success", "message": "Successfully fetched video by id: '.$video.'", "items": '.json_encode($data).'}';
     }
     else
     {
-      return '{"code": 200, "404": "error", "message": "Cannot find video with id: '.$id.'", "items": '.json_encode($data).'}';
+      return '{"code": 200, "404": "error", "message": "Cannot find video with id: '.$video.'", "items": '.json_encode($data).'}';
     }
   }
 }
