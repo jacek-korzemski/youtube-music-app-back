@@ -1,19 +1,27 @@
 <?php 
 
-route('POST', '^/getChannelByName$', function() {
+route('GET', '^/getNewVideos$', function() {
   $s = new Browse();
   header('Content-Type: application/json');
-  echo $s->getChannelByName($_POST['title'], $_POST['userId'], $_POST['token']);
+  echo $s->getNewVideos();
 });
 
-route('POST', '^/getChannelById$', function() {
+route('GET', '^/getAllChannels$', function() {
   $s = new Browse();
   header('Content-Type: application/json');
-  echo $s->getChannelById($_POST['id'], $_POST['userId'], $_POST['token']);
+  echo $s->getAllChannels();
 });
 
-route('POST', '^/getVideoById$', function() {
+route('GET', '^/getChannelById$', function() {
   $s = new Browse();
   header('Content-Type: application/json');
-  echo $s->getVideo($_POST['id'], $_POST['userId'], $_POST['token']);
+  if (!isset($_GET['id'])) { $_GET['id'] = null; }
+  echo $s->getChannelById($_GET['id']);
+});
+
+route('GET', '^/getVideoById$', function() {
+  $s = new Browse();
+  header('Content-Type: application/json');
+  if (!isset($_GET['id'])) { $_GET['id'] = null; }
+  echo $s->getVideo($_GET['id']);
 });
