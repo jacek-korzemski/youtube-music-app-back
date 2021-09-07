@@ -162,7 +162,7 @@ export const PageWrapper = styled.div`
   .content {
     margin-top: 30px;
     width: calc(100% - 120px);
-    height: calc(100% - 190px);
+    height: calc(100% - 230px);
     background: rgba(0, 0, 0, 0.5);
     border-radius: 10px;
     border: 1px solid white;

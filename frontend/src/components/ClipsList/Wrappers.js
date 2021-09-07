@@ -17,7 +17,7 @@ export const Wrapper = styled.div`
       }
     }
     .item {
-      width: 200px;
+      width: 300px;
       min-height: 100px;
       display: flex;
       flex-direction: column;

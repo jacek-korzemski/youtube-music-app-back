@@ -1,12 +1,12 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import { MainMenuWrapper } from "./Wrappers";
 
 const SearchMenu = () => {
   return (
     <MainMenuWrapper>
       <li>
-        <Link to={"/search"}>Search</Link>
+        <NavLink to={"/search"}>Search</NavLink>
       </li>
     </MainMenuWrapper>
   );

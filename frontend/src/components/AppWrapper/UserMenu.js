@@ -1,15 +1,15 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import { MainMenuWrapper } from "./Wrappers";
 
 const UserMenu = () => {
   return (
     <MainMenuWrapper>
       <li>
-        <Link to={"/my-playlists"}>My playlists</Link>
+        <NavLink to={"/my-playlists"}>My playlists</NavLink>
       </li>
       <li>
-        <Link to={"/my-reviews"}>My reviews</Link>
+        <NavLink to={"/my-reviews"}>My reviews</NavLink>
       </li>
     </MainMenuWrapper>
   );

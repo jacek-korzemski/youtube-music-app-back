@@ -166,7 +166,7 @@ class Youtube
     $restore_counter = 0;
     foreach ($videos as $video)
     {
-      if (get_headers($video['default_thumbnail'], 1)[0] != "HTTP/1.1 200 OK")
+      if (get_headers($video['default_thumbnail'], 1)[0] != "HTTP/1.1 200 OK" && $video['hide'] == NULL)
       {
         $delete_counter++;
         $this->db->query('UPDATE `music` SET hide = 1 WHERE id = '. $video['id']);

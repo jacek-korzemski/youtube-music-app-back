@@ -13,15 +13,9 @@ const AppWrapper = () => {
           <Route path="/new-clips">
             <NewClips />
           </Route>
-          <Route path="/channels">
-            <div style={{ color: "white" }}>Channels</div>
-          </Route>
-          <Route path="/top-clips">
-            <div style={{ color: "white" }}>Top clips</div>
-          </Route>
-          <Route path="/reviews">
-            <div style={{ color: "white" }}>Reviews</div>
-          </Route>
+          <Route path="/channels"></Route>
+          <Route path="/top-clips"></Route>
+          <Route path="/reviews"></Route>
         </Switch>
       </Wrapper>
     </Router>
