@@ -9,7 +9,7 @@ use Engine\src\Db;
 use Engine\src\EnvDecoder;
 
 // read .env file
-(new EnvDecoder(__DIR__ . '\..\.env'))->load();
+(new EnvDecoder(__DIR__ . '/../.env'))->load();
 
 // route engine
 function route($httpMethods, $route, $callback, $exit = true)
