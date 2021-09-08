@@ -76,6 +76,9 @@ export const GoBackWrapper = styled.div`
   text-shadow: 1px 2px 3px black;
   &:hover {
     color: red;
+    p {
+      color: white;
+    }
   }
   i {
     display: block;
@@ -83,6 +86,7 @@ export const GoBackWrapper = styled.div`
   }
   p {
     margin: 0;
+    color: white;
   }
   &.active {
     color: red;

@@ -12,7 +12,7 @@ class Browse
 
   public function getNewVideos()
   {
-    $data = $this->db->query("SELECT * FROM (SELECT * FROM `music` WHERE hide IS NULL ORDER BY published_at DESC LIMIT 50) sub ORDER BY published_at ASC")->fetchAll();
+    $data = $this->db->query("SELECT * FROM (SELECT * FROM `music` WHERE hide IS NULL ORDER BY published_at DESC LIMIT 100) sub ORDER BY published_at DESC")->fetchAll();
     return '{"code": 200, "status": "success", "message": "Successfully fetched last 50 videos.", "items": '.json_encode($data).'}';
   }
 
