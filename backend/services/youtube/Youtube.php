@@ -38,8 +38,8 @@ class Youtube
   {
     $real_id = $this->db->query("SELECT * FROM `channels` WHERE id = \"$channel_id\"")->fetchAll()[0]["channel_id"];
     $data = $this->getChannelData($real_id, $next_page);
-    if (!is_object($data) && !$silent) {
-      echo 'no object: ' . $data;
+    if (!is_object($data)) {
+      echo $data." \n";
       return;
     }
     $query = 'INSERT IGNORE INTO `music` (
