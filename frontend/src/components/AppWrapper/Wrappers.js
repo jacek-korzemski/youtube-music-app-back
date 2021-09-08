@@ -170,5 +170,9 @@ export const PageWrapper = styled.div`
     box-shadow: 1px 2px 3px rgba(0, 0, 0, 0.8);
     overflow-y: auto;
     padding: 30px;
+    .standard-text {
+      color: white;
+      font-weight: 100;
+    }
   }
 `;

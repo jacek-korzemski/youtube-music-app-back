@@ -28,7 +28,8 @@ class Browse
     {
       return '{"code": 404, "status": "error", "message": "Missing params, nothing to show."}';
     }
-    $data = $this->db->query("SELECT * FROM `music` WHERE channel_id=\"$channel\" AND hide IS NULL")->fetchAll();
+    $id = $this->db->query("SELECT * FROM `channels` WHERE id=$channel")->fetchAll()[0]['channel_id'];
+    $data = $this->db->query("SELECT * FROM `music` WHERE channel_id=\"$id\" AND hide IS NULL")->fetchAll();
     if (count($data) > 0)
     {
       return '{"code": 200, "status": "success", "message": "Successfully fetched channel by id: '.$channel.'", "items": '.json_encode($data).'}';
