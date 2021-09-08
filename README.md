@@ -28,3 +28,7 @@ The app is build in a way, that allow you atomate maintenance with simple CRON. 
 `php backend/cli/index.php -a clear_database` - in case that update_all action messed something up, and fetched data from some other channels that you wanted to - this action will clear database from every record that has channel_id different than ids from channels table.
 
 `php backend/cli/index.php -a clear_404` - hide records that was removed or set to private in youtube.
+
+# DEMO
+
+If you want to see the app in action - you can see it here: `http://react.metalmusic.pl/`
