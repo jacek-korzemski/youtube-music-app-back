@@ -1,9 +1,15 @@
-import React from "react";
+import React, { useState } from "react";
 import { GoBackWrapper } from "./Wrappers";
 
 const GoBack = () => {
+  const [active, setActive] = useState(false);
+
+  const activate = () => {
+    setActive(!active);
+  };
+
   return (
-    <GoBackWrapper>
+    <GoBackWrapper className={active ? "active" : undefined} onClick={() => activate()}>
       <i className="fi-heart"></i>
       <p>Favorite</p>
     </GoBackWrapper>

@@ -73,6 +73,7 @@ export const GoBackWrapper = styled.div`
   align-items: center;
   color: white;
   cursor: pointer;
+  text-shadow: 1px 2px 3px black;
   &:hover {
     color: red;
   }
@@ -82,6 +83,9 @@ export const GoBackWrapper = styled.div`
   }
   p {
     margin: 0;
+  }
+  &.active {
+    color: red;
   }
 `;
 
