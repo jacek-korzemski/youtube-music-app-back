@@ -15,7 +15,7 @@ const MainMenu = () => {
           Channels
         </NavLink>
       </li>
-      <li>
+      {/* <li>
         <NavLink to="/top-clips" activeClassName="active">
           Top clips
         </NavLink>
@@ -24,7 +24,7 @@ const MainMenu = () => {
         <NavLink to="/reviews" activeClassName="active">
           Reviews
         </NavLink>
-      </li>
+      </li> */}
     </MainMenuWrapper>
   );
 };
