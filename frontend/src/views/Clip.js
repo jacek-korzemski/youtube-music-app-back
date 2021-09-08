@@ -7,8 +7,6 @@ import Player from "components/Player/Player";
 import Loading from "components/Loading/Loading";
 
 const Clip = (props) => {
-  console.log(props);
-
   const [data, setData] = useState(false);
   const [error, setError] = useState(false);
   const { id } = useParams();

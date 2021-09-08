@@ -4,7 +4,6 @@ import { ChannelWrapper } from "./Wrappers";
 import { channelImage } from "./helpers";
 
 const ChannelsList = (props) => {
-  console.log(props.data);
   return (
     <ChannelWrapper>
       <Link to={"/channel/" + props.data.id}>

@@ -1,1 +1,1 @@
-export const api_url = "http://localhost:8084";
+export const api_url = process?.env?.REACT_APP_API ? process.env.REACT_APP_API : undefined;
