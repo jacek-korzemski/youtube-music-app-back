@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 
-const ButtonWrapper = styled.div`
+const ButtonWrapper = styled.span`
   display: inline-block;
   padding: 8px 16px;
   border: 1px solid red;

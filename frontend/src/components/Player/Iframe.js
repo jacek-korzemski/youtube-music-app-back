@@ -6,7 +6,7 @@ const Iframe = (props) => {
       src={"https://www.youtube.com/embed/" + props.data.url + "?rel=0"}
       title={props.data.title}
       allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-      allowfullscreen
+      allowFullScreen
       style={{ width: "100%", height: "100%", border: "none" }}
     ></iframe>
   );
