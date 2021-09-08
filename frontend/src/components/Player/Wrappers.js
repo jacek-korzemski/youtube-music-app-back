@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled, { keyframes } from "styled-components";
 
 export const Wrapper = styled.div`
   width: calc(100% + 60px);
@@ -37,6 +37,18 @@ export const InteractionsWrapper = styled.div`
   gap: 30px;
 `;
 
+const bump = keyframes`
+  0% {transform: scale(1)}
+  50% {transform: scale(0.79)}
+  100% {transform: scale(1)}
+`;
+
+const bump2 = keyframes`
+  0% {transform: scale(1)}
+  50% {transform: scale(0.81)}
+  100% {transform: scale(1)}
+`;
+
 export const StarsWrapper = styled.div`
   ul {
     list-style-type: none;
@@ -53,6 +65,11 @@ export const StarsWrapper = styled.div`
       cursor: pointer;
       &.active {
         color: red;
+        animation: ${bump} 0.3s linear forwards;
+      }
+      &.inactive {
+        color: white;
+        animation: ${bump2} 0.3s linear forwards;
       }
     }
     &.disabled {
@@ -76,6 +93,7 @@ export const GoBackWrapper = styled.div`
   text-shadow: 1px 2px 3px black;
   &:hover {
     color: red;
+    animation: ${bump} 0.3s linear forwards;
     p {
       color: white;
     }
@@ -90,6 +108,15 @@ export const GoBackWrapper = styled.div`
   }
   &.active {
     color: red;
+    animation: ${bump} 0.3s linear forwards;
+  }
+  &.inactive {
+    color: white;
+    animation: ${bump2} 0.3s linear forwards;
+    &:hover {
+      color: red;
+      animation: ${bump} 0.3s linear forwards;
+    }
   }
 `;
 

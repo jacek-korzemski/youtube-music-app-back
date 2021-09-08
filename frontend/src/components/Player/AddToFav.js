@@ -9,7 +9,7 @@ const GoBack = () => {
   };
 
   return (
-    <GoBackWrapper className={active ? "active" : undefined} onClick={() => activate()}>
+    <GoBackWrapper className={active ? "active" : "inactive"} onClick={() => activate()}>
       <i className="fi-heart"></i>
       <p>Favorite</p>
     </GoBackWrapper>
