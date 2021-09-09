@@ -21,13 +21,21 @@ class Youtube
     }
   }
 
-  public function updateAllChannels()
+  public function updateAllChannels($debug = false)
   {
     $counter_before = $this->db->query('SELECT COUNT(*) FROM `music`;')->fetchArray()['COUNT(*)'];
     $channels_list = $this->db->query('SELECT * FROM `channels`')->fetchAll();
     foreach ($channels_list as $channel)
     {
-      $this->updateChannel($channel['id'], false, true);
+      sleep(10);
+      if ($debug) 
+      {
+        echo $this->updateChannel($channel['id'], false, true);
+      } else 
+      {        
+        $this->updateChannel($channel['id'], false, true);
+      }
+      sleep(10);
     }
     $counter_after = $this->db->query('SELECT COUNT(*) FROM `music`;')->fetchArray()['COUNT(*)'];
     $counter = $counter_after - $counter_before;
@@ -39,7 +47,7 @@ class Youtube
     $real_id = $this->db->query("SELECT * FROM `channels` WHERE id = \"$channel_id\"")->fetchAll()[0]["channel_id"];
     $data = $this->getChannelData($real_id, $next_page);
     if (!is_object($data)) {
-      echo $data." \n";
+      echo "data:" . $data." \n\n\n";
       return;
     }
     $query = 'INSERT IGNORE INTO `music` (
