@@ -12,7 +12,7 @@ class Browse
 
   public function getNewVideos()
   {
-    $data = $this->db->query("SELECT * FROM (SELECT * FROM `music` WHERE hide IS NULL ORDER BY published_at DESC LIMIT 100) sub ORDER BY published_at DESC")->fetchAll();
+    $data = $this->db->query("SELECT * FROM (SELECT * FROM `music` WHERE hide IS NULL AND deleted IS NULL ORDER BY published_at DESC LIMIT 100) sub ORDER BY published_at DESC")->fetchAll();
     return '{"code": 200, "status": "success", "message": "Successfully fetched last 50 videos.", "items": '.json_encode($data).'}';
   }
 
@@ -29,7 +29,7 @@ class Browse
       return '{"code": 404, "status": "error", "message": "Missing params, nothing to show."}';
     }
     $id = $this->db->query("SELECT * FROM `channels` WHERE id=$channel")->fetchAll()[0]['channel_id'];
-    $data = $this->db->query("SELECT * FROM `music` WHERE channel_id=\"$id\" AND hide IS NULL")->fetchAll();
+    $data = $this->db->query("SELECT * FROM `music` WHERE channel_id=\"$id\" AND hide IS NULL AND deleted IS NULL ORDER BY published_at DESC")->fetchAll();
     if (count($data) > 0)
     {
       return '{"code": 200, "status": "success", "message": "Successfully fetched channel by id: '.$channel.'", "items": '.json_encode($data).'}';
@@ -46,7 +46,7 @@ class Browse
     {
       return '{"code": 404, "status": "error", "message": "Missing params. Nothing to show."}';
     }
-    $data = $this->db->query("SELECT * FROM `music` WHERE id=$video AND hide IS NULL")->fetchAll();
+    $data = $this->db->query("SELECT * FROM `music` WHERE id=$video AND hide IS NULL AND deleted IS NULL")->fetchAll();
     if (count($data) > 0) 
     {
       return '{"code": 200, "status": "success", "message": "Successfully fetched video by id: '.$video.'", "items": '.json_encode($data).'}';

@@ -59,7 +59,8 @@ CREATE TABLE `music` (
   `medium_thumbnail` text NOT NULL,
   `high_thumbnail` text NOT NULL,
   `channel_title` varchar(255) NOT NULL,
-  `hide` tinyint(1) DEFAULT NULL
+  `hide` tinyint(1) DEFAULT NULL,
+  `deleted` tinyint(1) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 ALTER TABLE `music`
