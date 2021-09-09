@@ -52,13 +52,21 @@ class Youtube
       `default_thumbnail`, 
       `medium_thumbnail`, 
       `high_thumbnail`, 
-      `channel_title`) 
+      `channel_title`,
+      `hide`) 
       VALUES ';
 
     if ($data && $data->items)
     {
       foreach ($data->items as $item)
       {
+        if (get_headers($item->snippet->thumbnails->medium->url, 1)[0] != "HTTP/1.1 200 OK")
+        {
+          $set_hide = "1";
+        }
+        else {
+          $set_hide = "NULL";
+        }
         if (isset($item) && isset($item->id) && isset($item->id->videoId))
         {
           $query.= '(
@@ -71,7 +79,8 @@ class Youtube
             \''. preg_replace("/'/i", "|", $item->snippet->thumbnails->default->url) .'\', 
             \''. preg_replace("/'/i", "|", $item->snippet->thumbnails->medium->url) .'\', 
             \''. preg_replace("/'/i", "|", $item->snippet->thumbnails->high->url) .'\', 
-            \''. preg_replace("/'/i", "|", $item->snippet->channelTitle) .'\')';
+            \''. preg_replace("/'/i", "|", $item->snippet->channelTitle) .'\',
+            '.$set_hide.')';
         }
         if(!next($data->items)) 
         {
