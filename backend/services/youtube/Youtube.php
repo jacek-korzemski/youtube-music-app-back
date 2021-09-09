@@ -193,6 +193,14 @@ class Youtube
 
   private function getChannelData($channel_id, $next_page = false)
   {
+    $opts = array(
+      'http'=>array(
+        'method'=>"GET"
+      )
+    );
+
+    $context = stream_context_create($opts);
+
     $api_url = 'https://www.googleapis.com/youtube/v3/search?order=date&part=snippet';
     $api_url.= '&channelId='.$channel_id;
     $api_url.= '&maxResults=50';
@@ -201,7 +209,7 @@ class Youtube
     {
       $api_url.= '&pageToken=' . $next_page;
     }
-    $result  = @file_get_contents($api_url); 
+    $result  = file_get_contents($api_url, false, $context); 
 
     if ($result)
     { 
@@ -210,7 +218,7 @@ class Youtube
     else
     { 
       error_log(date('Y-m-d h:i') . " - The API key is used enough for today. Try again tomorow. \n", 3, __DIR__ . "/../../logs/errors.log");
-      return '{"code": 500, "status": "error", "message": "It seems, that your API key is used enough for today. Try again tomorow.", "next-page": null}';
+      return '{"code": 500, "status": "error", "message": "It seems, that your API key is used enough for today. Try again tomorow.", "next-page": null, "result": "'.$result.'"}';
     }
   }
 
