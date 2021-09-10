@@ -105,6 +105,6 @@ class Auth
       'INSERT into `tokens` (`id`, `userId`, `token`, `expiredDate`) VALUES (?, ?, ?, ?)',
       array(null, $id, $randHash, $expire)
     );
-    return '{"code": 200, "status": "success", "message": "Token successfully updated", "tokenData": '.json_encode($new_token_response).'}';
+    return '{"code": 200, "status": "success", "message": "Token successfully updated"}';
   }
 }

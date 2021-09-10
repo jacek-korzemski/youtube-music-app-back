@@ -101,6 +101,7 @@ export const MainMenuWrapper = styled.ul`
   color: white;
   li {
     margin: 15px 0;
+    text-align: center;
     a {
       font-size: 24px;
       color: white;
@@ -161,6 +162,7 @@ export const PageWrapper = styled.div`
     min-height: 40px;
   }
   .content {
+    position: relative;
     margin-top: 30px;
     width: calc(100% - 120px);
     height: calc(100% - 230px);
