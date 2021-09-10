@@ -27,7 +27,6 @@ class Youtube
     $channels_list = $this->db->query('SELECT * FROM `channels`')->fetchAll();
     foreach ($channels_list as $channel)
     {
-      sleep(10);
       if ($debug) 
       {
         echo $this->updateChannel($channel['id'], false, true);
@@ -35,7 +34,7 @@ class Youtube
       {        
         $this->updateChannel($channel['id'], false, true);
       }
-      sleep(10);
+      break;
     }
     $counter_after = $this->db->query('SELECT COUNT(*) FROM `music`;')->fetchArray()['COUNT(*)'];
     $counter = $counter_after - $counter_before;
@@ -47,7 +46,7 @@ class Youtube
     $real_id = $this->db->query("SELECT * FROM `channels` WHERE id = \"$channel_id\"")->fetchAll()[0]["channel_id"];
     $data = $this->getChannelData($real_id, $next_page);
     if (!is_object($data)) {
-      echo "data:" . $data." \n\n\n";
+      echo "data:" . $data." \n";
       return;
     }
     $query = 'INSERT IGNORE INTO `music` (
@@ -201,27 +200,34 @@ class Youtube
 
   private function getChannelData($channel_id, $next_page = false)
   {
-    $opts = array(
-      'http'=>array(
-        'method'=>"GET"
-      )
+    $options = array(
+      'order' => 'date', 
+      'part' => 'snippet',
+      'channelId' => $channel_id,
+      'maxResults' => 50,
+      'key' => $this->key
     );
-
-    $context = stream_context_create($opts);
-
-    $api_url = 'https://www.googleapis.com/youtube/v3/search?order=date&part=snippet';
-    $api_url.= '&channelId='.$channel_id;
-    $api_url.= '&maxResults=50';
-    $api_url.= '&key='.$this->key.'';
     if ($next_page)
     {
-      $api_url.= '&pageToken=' . $next_page;
+      $options['pageToken'] = $next_page;
     }
-    $result  = file_get_contents($api_url, false, $context); 
+    $url = "https://www.googleapis.com/youtube/v3/search?".http_build_query($options, 'a', '&');
+    $curl = curl_init($url);
+
+    curl_setopt($curl, CURLOPT_HTTPAUTH, CURLAUTH_ANY);
+    curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
+    curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);  
+    curl_setopt($curl, CURLOPT_REFERER, "http://katalog.metalmusic.pl");
+
+    $json_response = curl_exec($curl);
+
+    curl_close($curl);
+    
+    $result = json_decode($json_response);
 
     if ($result)
     { 
-      return json_decode($result); 
+      return $result; 
     }
     else
     { 
