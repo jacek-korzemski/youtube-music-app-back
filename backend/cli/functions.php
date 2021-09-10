@@ -16,7 +16,7 @@ function cli_update_channel($channel_id)
 function cli_update_all_channels()
 {
   $s = new Youtube();
-  echo $s->updateAllChannels(true) . "\n";
+  echo $s->updateAllChannels() . "\n";
 }
 
 function cli_update_channels_list()

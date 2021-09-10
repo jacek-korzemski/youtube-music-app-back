@@ -34,7 +34,6 @@ class Youtube
       {        
         $this->updateChannel($channel['id'], false, true);
       }
-      break;
     }
     $counter_after = $this->db->query('SELECT COUNT(*) FROM `music`;')->fetchArray()['COUNT(*)'];
     $counter = $counter_after - $counter_before;
