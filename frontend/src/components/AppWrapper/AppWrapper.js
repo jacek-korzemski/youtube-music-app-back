@@ -14,9 +14,22 @@ export const UserContext = React.createContext(false);
 const AppWrapper = () => {
   const [user, setUser] = useState(false);
 
+  const checkUserInSession = (str) => {
+    try {
+      JSON.parse(str);
+    } catch (e) {
+      return false;
+    }
+    return true;
+  };
+
   useEffect(() => {
-    if (sessionStorage.getItem("user")) {
+    if (sessionStorage.getItem("user") && checkUserInSession(sessionStorage.getItem("user"))) {
       setUser(JSON.parse(sessionStorage.getItem("user")));
+    } else {
+      if (sessionStorage.getItem("user")) {
+        sessionStorage.removeItem("user");
+      }
     }
   }, []);
 
