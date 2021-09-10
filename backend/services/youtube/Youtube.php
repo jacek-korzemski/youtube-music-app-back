@@ -181,17 +181,17 @@ class Youtube
     $restore_counter = 0;
     foreach ($videos as $video)
     {
-      if (get_headers($video['default_thumbnail'], 1)[0] != "HTTP/1.1 200 OK" && $video['hide'] == NULL)
+      if (checkUrl($video['default_thumbnail']) == false && $video['hide'] == NULL)
       {
         $delete_counter++;
         $this->db->query('UPDATE `music` SET hide = 1 WHERE id = '. $video['id']);
-        echo $video['id'] . " - deleted becouse of ".get_headers($video['default_thumbnail'], 1)[0]." \n";
+        echo $video['id'] . " - is now hidden \n";
       }
-      if (get_headers($video['default_thumbnail'], 1)[0] == "HTTP/1.1 200 OK" && $video['hide'] == 1)
+      if (checkUrl($video['default_thumbnail']) == true && $video['hide'] == 1)
       {
         $restore_counter++;
         $this->db->query('UPDATE `music` SET hide = NULL WHERE id = '. $video['id']);
-        echo $video['id'] . " - restored becouse of ".get_headers($video['default_thumbnail'], 1)[0]." \n";
+        echo $video['id'] . " - is now visible \n";
       }
     }
     echo "deleted: $delete_counter records. \n restored: $restore_counter records. \n";
