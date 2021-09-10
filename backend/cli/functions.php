@@ -110,3 +110,15 @@ function cli_clear_404()
   $s = new Youtube();
   echo $s->__clearDatabaseFrom404Records();
 }
+
+function cli_test_url($url)
+{
+  if (checkUrl($url))
+  {
+    echo 'OK';
+  }
+  else
+  {
+    echo "FAIL";
+  }
+}

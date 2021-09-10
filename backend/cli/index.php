@@ -4,7 +4,7 @@ require_once __DIR__ . '/../engine/engine.php';
 require_once __DIR__ . '/../services/services.php';
 require_once "functions.php";
 
-$options  = getopt("a:", ["id:", "from:", "to:", "all"]);
+$options  = getopt("a:", ["id:", "from:", "to:", "all", "url:"]);
 
 if (isset($options['a']))
 {
@@ -46,6 +46,10 @@ if (isset($options['a']))
       break;
     case 'clear_404':
       cli_clear_404();
+      break;
+    case 'test_url':
+      $url  =   isset($options['url'])               ?   $options['url']    : false;
+      cli_test_url($url);
       break;
     default:
       echo 'Invalid action. To see the action list, simply run php index.php without arguments.';

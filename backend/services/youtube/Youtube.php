@@ -66,12 +66,12 @@ class Youtube
     {
       foreach ($data->items as $item)
       {
-        if (get_headers($item->snippet->thumbnails->medium->url, 1)[0] != "HTTP/1.1 200 OK")
+        if (checkUrl($item->snippet->thumbnails->medium->url))
         {
-          $set_hide = "1";
+          $set_hide = "NULL";
         }
         else {
-          $set_hide = "NULL";
+          $set_hide = "1";
         }
         if (isset($item) && isset($item->id) && isset($item->id->videoId))
         {
