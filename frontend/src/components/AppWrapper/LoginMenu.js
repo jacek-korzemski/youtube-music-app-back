@@ -2,6 +2,7 @@ import React, { useContext } from "react";
 import { MainMenuWrapper } from "./Wrappers";
 import { AppContext } from "./AppWrapper";
 import LoginModal from "./LoginModal";
+import RegisterModal from "./RegisterModal";
 
 const SearchMenu = () => {
   const user = useContext(AppContext);
@@ -14,7 +15,9 @@ const SearchMenu = () => {
         </span>
       </li>
       <li>
-        <span className="link-like">Register</span>
+        <span className="link-like" onClick={() => user.setModal(<RegisterModal />)}>
+          Register
+        </span>
       </li>
     </MainMenuWrapper>
   );

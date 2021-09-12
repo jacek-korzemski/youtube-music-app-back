@@ -252,3 +252,53 @@ export const LoginModalWrapper = styled.div`
     }
   }
 `;
+
+export const RegisterModalWrapper = styled.div`
+  min-width: 300px;
+  min-height: 300px;
+  padding: 30px;
+  background: white;
+  box-shadow: 1px 2px 3px black;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: stretch;
+  margin-top: -100px;
+  animation-delay: 2.6s;
+  animation: 0.3s ${fadeInDrop} ease-out forwards;
+  position: relative;
+  p {
+    margin: 0;
+  }
+  hr {
+    margin-bottom: 30px;
+  }
+  h2 {
+    text-align: center;
+    margin-top: 0;
+  }
+  .close-icon {
+    display: block;
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    cursor: pointer;
+    font-size: 20px;
+    &:hover {
+      color: red;
+    }
+  }
+  .info {
+    width: 100%;
+    max-width: 300px;
+    border-left: 1px solid gray;
+    margin-left: 15px;
+    padding: 0 15px;
+    p {
+      margin-bottom: 15px;
+      span {
+        display: inline-block;
+      }
+    }
+  }
+`;
