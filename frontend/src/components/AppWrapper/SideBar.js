@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Link } from "react-router-dom";
 import User from "./User";
 import MainMenu from "./MainMenu";
@@ -6,11 +6,14 @@ import SearchMenu from "./SearchMenu";
 import UserMenu from "./UserMenu";
 import TermsMenu from "./TermsMenu";
 import { SideBarWrapper, Title, Divider } from "./Wrappers";
+import { AppContext } from "./AppWrapper";
 
 // temporary
 import userimage from "assets/temp.user.png";
 
 const SideBar = () => {
+  const user = useContext(AppContext);
+
   return (
     <SideBarWrapper>
       <Title>
@@ -23,8 +26,13 @@ const SideBar = () => {
       <Divider />
       <SearchMenu />
       <Divider />
-      <UserMenu />
-      <Divider />
+      {user?.user && (
+        <>
+          <UserMenu />
+          <Divider />
+        </>
+      )}
+
       <TermsMenu />
     </SideBarWrapper>
   );
