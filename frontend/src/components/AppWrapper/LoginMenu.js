@@ -1,15 +1,20 @@
-import React from "react";
-import { NavLink } from "react-router-dom";
+import React, { useContext } from "react";
 import { MainMenuWrapper } from "./Wrappers";
+import { AppContext } from "./AppWrapper";
+import LoginModal from "./LoginModal";
 
 const SearchMenu = () => {
+  const user = useContext(AppContext);
+
   return (
     <MainMenuWrapper>
       <li>
-        <NavLink to={"/login"}>Login</NavLink>
+        <span className="link-like" onClick={() => user.setModal(<LoginModal />)}>
+          Login
+        </span>
       </li>
       <li>
-        <NavLink to={"/register"}>Register</NavLink>
+        <span className="link-like">Register</span>
       </li>
     </MainMenuWrapper>
   );

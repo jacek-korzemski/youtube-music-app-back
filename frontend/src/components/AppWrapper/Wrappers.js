@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled, { keyframes } from "styled-components";
 import bg from "./bg.png";
 
 export const Wrapper = styled.div`
@@ -102,12 +102,14 @@ export const MainMenuWrapper = styled.ul`
   li {
     margin: 15px 0;
     text-align: center;
-    a {
+    a,
+    .link-like {
       font-size: 24px;
       color: white;
       font-weight: 100;
       text-decoration: none;
       border-bottom: 1px solid transparent;
+      cursor: pointer;
       &:hover {
         border-bottom: 1px solid white;
       }
@@ -175,6 +177,78 @@ export const PageWrapper = styled.div`
     .standard-text {
       color: white;
       font-weight: 100;
+    }
+  }
+`;
+
+const fadeIn = keyframes`
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+`;
+
+export const ModalWrapper = styled.div`
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.8);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  z-index: 99;
+  animation: 0.3s ${fadeIn} ease-out forwards;
+`;
+
+const fadeInDrop = keyframes`
+  0% {
+    transform: translateY(-300px);
+    opacity: 0;
+  }
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+`;
+
+export const LoginModalWrapper = styled.div`
+  width: 300px;
+  min-height: 300px;
+  padding: 30px;
+  background: white;
+  box-shadow: 1px 2px 3px black;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-top: -100px;
+  animation-delay: 2.6s;
+  animation: 0.3s ${fadeInDrop} ease-out forwards;
+  position: relative;
+  p {
+    margin: 0;
+  }
+  hr {
+    margin-bottom: 30px;
+  }
+  h2 {
+    text-align: center;
+    margin-top: 0;
+  }
+  .close-icon {
+    display: block;
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    cursor: pointer;
+    font-size: 20px;
+    &:hover {
+      color: red;
     }
   }
 `;

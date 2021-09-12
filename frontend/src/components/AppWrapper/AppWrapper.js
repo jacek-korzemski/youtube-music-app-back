@@ -1,18 +1,18 @@
 import React, { useState, useEffect } from "react";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import SideBar from "./SideBar";
-import { Wrapper } from "./Wrappers";
+import { Wrapper, ModalWrapper } from "./Wrappers";
 import NewClips from "views/NewClips";
 import Clip from "views/Clip";
 import Channels from "views/Channels";
 import Channel from "views/Channel";
 import Index from "views/Index";
-import Login from "views/Login";
 
-export const UserContext = React.createContext(false);
+export const AppContext = React.createContext(false);
 
 const AppWrapper = () => {
   const [user, setUser] = useState(false);
+  const [modal, setModal] = useState(false);
 
   const checkUserInSession = (str) => {
     try {
@@ -34,7 +34,7 @@ const AppWrapper = () => {
   }, []);
 
   return (
-    <UserContext.Provider value={user}>
+    <AppContext.Provider value={{ user: user, setUser: setUser, modal: modal, setModal: setModal }}>
       <Router>
         <Wrapper>
           <SideBar />
@@ -56,13 +56,22 @@ const AppWrapper = () => {
             <Route path="/channel/:id">
               <Channel />
             </Route>
-            <Route path="/login">
-              <Login setUser={setUser} />
-            </Route>
           </Switch>
         </Wrapper>
+        {modal && (
+          <ModalWrapper
+            onClick={(e) => {
+              e.stopPropagation();
+              if (e.target === e.currentTarget) {
+                setModal(false);
+              }
+            }}
+          >
+            {modal}
+          </ModalWrapper>
+        )}
       </Router>
-    </UserContext.Provider>
+    </AppContext.Provider>
   );
 };
 
