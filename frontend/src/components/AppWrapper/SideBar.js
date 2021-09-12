@@ -8,9 +8,6 @@ import TermsMenu from "./TermsMenu";
 import { SideBarWrapper, Title, Divider } from "./Wrappers";
 import { AppContext } from "./AppWrapper";
 
-// temporary
-import userimage from "assets/temp.user.png";
-
 const SideBar = () => {
   const user = useContext(AppContext);
 
@@ -20,7 +17,7 @@ const SideBar = () => {
         <Link to={"/"}>Metal Catalogue</Link>
       </Title>
       <Divider />
-      <User image={userimage} username={"Jacek"} />
+      <User />
       <Divider />
       <MainMenu />
       <Divider />

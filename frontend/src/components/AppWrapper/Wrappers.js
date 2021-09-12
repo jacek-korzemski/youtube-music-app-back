@@ -267,6 +267,9 @@ export const RegisterModalWrapper = styled.div`
   animation-delay: 2.6s;
   animation: 0.3s ${fadeInDrop} ease-out forwards;
   position: relative;
+  form {
+    max-width: 300px;
+  }
   p {
     margin: 0;
   }

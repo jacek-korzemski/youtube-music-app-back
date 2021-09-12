@@ -51,14 +51,12 @@ const LoginModal = () => {
         <p>Password:</p>
         <input type="password" name="password" autoComplete="off" value={password} onChange={(e) => setPassword(e.target.value)} />
         <input type="hidden" style={{ display: "none" }} />
-        <p style={{ textAlign: "center", marginTop: "10px" }}>
-          <Button
-            type="button"
-            onClick={() => {
-              tryToLogin();
-            }}
-          >
-            Log in
+        <p className="buttons-wrapper">
+          <Button type="button" onClick={() => tryToLogin()}>
+            Login
+          </Button>
+          <Button type="button" onClick={() => user.setModal(false)}>
+            Close
           </Button>
         </p>
       </form>

@@ -9,6 +9,9 @@ const LoginModal = () => {
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [email2, setEmail2] = useState("");
+  const [warningAccepted, setWarningAccepted] = useState(false);
+  const [privacyAccepted, setPrivacyAccepted] = useState(false);
+  const [success, setSuccess] = useState(false);
 
   const validateEmail = (email) => {
     const re =
@@ -29,10 +32,18 @@ const LoginModal = () => {
       alert("Invalid Email!");
       return false;
     }
+    if (!warningAccepted) {
+      alert("You have to read the warning, understand the risks and accept them.");
+      return false;
+    }
+    if (!privacyAccepted) {
+      alert("You have to read the privacy policy, understand it and accept it.");
+      return false;
+    }
     return true;
   };
 
-  const tryToLogin = () => {
+  const tryToRegiser = () => {
     if (!frontEndValidate()) {
       return false;
     }
@@ -41,9 +52,24 @@ const LoginModal = () => {
     formData.append("username", username);
     formData.append("email", email);
 
-    fetch(api_url + "/register", { method: "POST", body: formData }).then(() => {
-      /* TODO */
-    });
+    fetch(api_url + "/register", { method: "POST", body: formData })
+      .then((res) => {
+        if (!res.ok) {
+          throw new Error("Wrong API response.");
+        } else {
+          return res.json();
+        }
+      })
+      .then((res) => {
+        if (res.code === 200) {
+          setSuccess(true);
+        } else {
+          setSuccess(false);
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
 
   return (
@@ -56,27 +82,53 @@ const LoginModal = () => {
       >
         [X]
       </span>
-      <form autoComplete="new-password">
-        <h2>Register</h2>
-        <hr />
-        <p>Login:</p>
-        <input type="text" name="login" autoComplete="off" value={username} onChange={(e) => setUsername(e.target.value)} />
-        <p>Email:</p>
-        <input type="text" name="email" autoComplete="off" value={email} onChange={(e) => setEmail(e.target.value)} />
-        <p>Repeat email:</p>
-        <input type="text" name="email2" autoComplete="off" value={email2} onChange={(e) => setEmail2(e.target.value)} />
-        <input type="hidden" style={{ display: "none" }} />
-        <p style={{ textAlign: "center", marginTop: "10px" }}>
-          <Button
-            type="button"
-            onClick={() => {
-              tryToLogin();
-            }}
-          >
-            Register
-          </Button>
-        </p>
-      </form>
+      {!success ? (
+        <form autoComplete="new-password">
+          <h2>Register</h2>
+          <hr />
+          <p>Login:</p>
+          <input type="text" name="login" autoComplete="off" value={username} onChange={(e) => setUsername(e.target.value)} />
+          <p>Email:</p>
+          <input type="text" name="email" autoComplete="off" value={email} onChange={(e) => setEmail(e.target.value)} />
+          <p>Repeat email:</p>
+          <input type="text" name="email2" autoComplete="off" value={email2} onChange={(e) => setEmail2(e.target.value)} />
+          <input type="hidden" style={{ display: "none" }} />
+          <label for="warning_checkbox">
+            <input type="checkbox" name="warning_checkbox" value={warningAccepted} onClick={() => setWarningAccepted(!warningAccepted)} />
+            I've read the warning on the right. I understand and I am accepting the risk.
+          </label>
+          <br />
+          <br />
+          <label for="warning_checkbox">
+            <input type="checkbox" name="warning_checkbox" value={privacyAccepted} onClick={() => setPrivacyAccepted(!privacyAccepted)} />
+            I've read the privacy policy, I understand it, and I accept it.
+          </label>
+          <br />
+          <br />
+          <p className="buttons-wrapper">
+            <Button type="button" onClick={() => tryToRegiser()}>
+              Register
+            </Button>
+            <Button type="button" onClick={() => user.setModal(false)}>
+              Close
+            </Button>
+          </p>
+        </form>
+      ) : (
+        <div className="success">
+          <div className="info" style={{ borderLeft: "none" }}>
+            <h2>Success</h2>
+            <hr />
+            <p>Register successfull! Check your mail for the passowrd.</p>
+            <p style={{ textAlign: "center" }}>
+              <Button type="button" onClick={() => user.setModal(false)}>
+                Close
+              </Button>
+            </p>
+          </div>
+        </div>
+      )}
+
       <div className="info">
         <h2>Warning!</h2>
         <hr />

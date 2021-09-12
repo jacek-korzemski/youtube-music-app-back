@@ -4,16 +4,14 @@ import { UserWrapper } from "./Wrappers";
 import LoginMenu from "./LoginMenu";
 import { api_url } from "Config";
 
-const User = (props) => {
+const User = () => {
   const user = useContext(AppContext);
-
-  console.log(user);
 
   const tryToLogout = () => {
     const formData = new FormData();
 
-    formData.append("userId", user.user.id);
-    formData.append("token", user.user.token);
+    formData.append("userId", user.user.userId);
+    formData.append("token", user.user.tokenHash);
 
     fetch(api_url + "/logout", { method: "POST", body: formData })
       .then((res) => {
@@ -23,32 +21,32 @@ const User = (props) => {
           return res.json();
         }
       })
-      .then((res) => {
-        console.log(res);
-        sessionStorage.removeItem("user");
+      .then(() => {
         user.setUser(false);
       })
-      .then(() => {
-        user.setModal(false);
-      })
-      .catch((err) => console.log(err));
+      .then(() => sessionStorage.removeItem("user"))
+      .catch((err) => {
+        user.setUser(false);
+        console.log(err);
+      });
   };
 
   return (
     <>
+      {console.log(user)}
       {user?.user ? (
         <UserWrapper>
           <div className="left">
             <div className="image-wrapper">
-              <img src={props.image} alt="user avatar" />
+              <div style={{ width: "64px", height: "64px", background: "grey" }}></div>
             </div>
           </div>
           <div className="right">
-            <div className="username" title={props.username}>
-              {props.username}
+            <div className="username" title={"username"}>
+              Username
             </div>
             <ul className="user-navigation">
-              <li className="notifications">Notifications {props.notifications && <>({props.notifications.length})</>}</li>
+              <li className="notifications">Notifications</li>
               <li className="profile">Profile</li>
               <li className="logout" onClick={() => tryToLogout()}>
                 Log out

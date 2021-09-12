@@ -1,6 +1,9 @@
 <?php
 
 use Engine\src\Db;
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\SMTP;
+use PHPMailer\PHPMailer\Exception;
 
 class Auth
 {
@@ -24,24 +27,58 @@ class Auth
       return '{"code": 400, "status": "error", "message": "the username is already taken. Try a different one."}';
     }
 
-    $password = generatePassword(12);
+    $password = $this->generatePassword(12);
 
     $mail_content = "
-    Welcome new user! \r\n
-    Now, you should be able to log into application with these credentials: \r\n
-    login: $username\r\n
-    password: $password\r\n
-    \r\n
-    <h1>WARNING!</h1>\r\n
+    Welcome new user! <br/>
+    Now, you should be able to log into application with these credentials: <br/>
+    login: $username<br/>
+    password: $password<br/>
+    <br/>
+    <h1>WARNING!</h1>
     Please keep in mind, that this is only a student project! I'm not respinsible for any data los or leakage. I'm not confident enought \r\n
     to guarantee safeness of your data. I suggest, that you should not use your main email. NEVER change your app password for a password that \r\n
-    you are already using somewhere else.\r\n\r\n
+    you are already using somewhere else.<br/><br/>
     Have fun :)
     ";
 
-    $this->db->query("INSERT INTO `users` (`id`, `username`, `password`, `power`, `email`) VALUES (NULL, '$username', '".md5($password)."', '1', '$email')");
+    $mailer = new PHPMailer(true);
 
-    mail($email, 'User Registration - Metal Catalogue', $mail_content);
+    try 
+    {
+      $mailer->SMTPDebug  = SMTP::DEBUG_OFF;
+      $mailer->isSMTP();
+      $mailer->Host       = $_SERVER['SMTP_HOST'];
+      $mailer->SMTPAuth   = true;
+      $mailer->Username   = $_SERVER['SMTP_USER'];
+      $mailer->Password   = $_SERVER['SMTP_PASS'];
+      $mailer->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;
+      $mailer->Port       = $_SERVER['SMTP_PORT'];
+  
+      $mailer->setFrom($_SERVER['SMTP_USER'], $_SERVER['MAIL_PAGENAME']);
+      $mailer->addAddress($email);
+      $mailer->addReplyTo($_SERVER['SMTP_USER'], $_SERVER['MAIL_USERNAME']);
+  
+      $mailer->isHTML(true);
+      $mailer->Subject = 'User registration - MetalMusic Catalog';
+      $mailer->Body    = $mail_content;
+      $mailer->AltBody = "
+        login: $username\r\n
+        password: $password\r\n\r\n
+        WARNING!\r\n
+        Please keep in mind, that this is only a student project! I'm not respinsible for any data los or leakage. 
+        I'm not confident enought \r\n
+        to guarantee safeness of your data. I suggest, that you should not use your main email. NEVER change your 
+        app password for a password that \r\n
+        you are already using somewhere else.\r\n\r\n";
+      $mailer->send();
+    } 
+    catch (Exception $e) 
+    {
+      return '{"code": 999, "status": "error", "message": "Something went terribly wrong during the registration process...", "additionalInfo": "'.$mailer->ErrorInfo.'"}';
+    }
+
+    $this->db->query("INSERT INTO `users` (`id`, `username`, `password`, `power`, `email`) VALUES (NULL, '$username', '".md5($password)."', '1', '$email')");
     return '{"code": 200, "status": "success", "message": "Account succesfully created. Email with password has been sent to '.$email.'"}';
   }
 
@@ -78,10 +115,10 @@ class Auth
 
   public function logout($userId, $client_token)
   {
-    $db_token = $this->db->query("SELECT * FROM `tokens` WHERE `userId` = ?", array($userId))->fetchArray();
+    $db_token = $this->db->query("SELECT * FROM `tokens` WHERE userId = '$userId'")->fetchArray();
 
     if (count($db_token) == 0) {
-      return '{"code": 401, "status": "error", "message": "Wser was already logged out."}';
+      return '{"code": 401, "status": "error", "message": "User was already logged out."}';
     }
 
     if ($db_token['token'] != $client_token)
@@ -147,7 +184,7 @@ class Auth
     $new_password = '';
     for ($i = 0; $i < $length; $i++) 
     {
-        $randomString .= $characters[rand(0, $charactersLength - 1)];
+        $new_password .= $characters[rand(0, $charactersLength - 1)];
     }
     return $new_password;
   }

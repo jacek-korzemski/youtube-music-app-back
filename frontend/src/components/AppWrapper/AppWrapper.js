@@ -58,18 +58,7 @@ const AppWrapper = () => {
             </Route>
           </Switch>
         </Wrapper>
-        {modal && (
-          <ModalWrapper
-            onClick={(e) => {
-              e.stopPropagation();
-              if (e.target === e.currentTarget) {
-                setModal(false);
-              }
-            }}
-          >
-            {modal}
-          </ModalWrapper>
-        )}
+        {modal && <ModalWrapper>{modal}</ModalWrapper>}
       </Router>
     </AppContext.Provider>
   );
