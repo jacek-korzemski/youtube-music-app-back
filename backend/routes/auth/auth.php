@@ -1,25 +1,31 @@
 <?php 
 
 route('POST', '^/login$', function() {
-  $l = new Auth();
+  $s = new Auth();
   header('Content-Type: application/json');
-  echo $l->login($_POST['username'], $_POST['password']);
+  echo $s->login($_POST['username'], $_POST['password']);
 });
 
 route('POST', '^/logout$', function() {
-  $l = new Auth();
+  $s = new Auth();
   header('Content-Type: application/json');
-  echo $l->logout($_POST['userId'], $_POST['token']);
+  echo $s->logout($_POST['userId'], $_POST['token']);
 });
 
 route('POST', '^/updateToken', function() {
-  $l = new Auth();
+  $s = new Auth();
   header('Content-Type: application/json');
-  echo $l->updateToken($_POST['userId'], $_POST['token']);
+  echo $s->updateToken($_POST['userId'], $_POST['token']);
 });
 
 route('POST', '^/auth$', function() {
-  $l = new Auth();
+  $s = new Auth();
   header('Content-Type: application/json');
-  echo $l->checkToken($_POST['userId'], $_POST['token']);
+  echo $s->checkToken($_POST['userId'], $_POST['token']);
+});
+
+route('POST', '^/register$', function() {
+  $s = new Auth();
+  header('Content-Type: application/json');
+  echo $s->register($_POST['username'], $_POST['email']);
 });
