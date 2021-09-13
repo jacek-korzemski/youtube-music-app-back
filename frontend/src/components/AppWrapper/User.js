@@ -3,6 +3,7 @@ import { AppContext } from "components/AppWrapper/AppWrapper";
 import { UserWrapper } from "./Wrappers";
 import LoginMenu from "./LoginMenu";
 import { api_url } from "Config";
+import EditProfile from "components/UserProfile/Edit";
 
 const User = () => {
   const user = useContext(AppContext);
@@ -50,7 +51,9 @@ const User = () => {
             </div>
             <ul className="user-navigation">
               <li className="notifications">Notifications</li>
-              <li className="profile">Profile</li>
+              <li className="profile" onClick={() => user.setModal(<EditProfile userId={user.user.id} />)}>
+                Profile
+              </li>
               <li className="logout" onClick={() => tryToLogout()}>
                 Log out
               </li>

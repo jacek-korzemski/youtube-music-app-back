@@ -2,6 +2,7 @@
 
 include 'auth/auth.php';
 include 'services/browse.php';
+include 'services/user.php';
 
 // Testing index page
 route('GET', '^/$', function() {

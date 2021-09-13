@@ -137,7 +137,7 @@ class Auth
 
   public function checkToken($userId, $client_token)
   {
-    $db_token = $this->db->query("SELECT * FROM `tokens` WHERE `userId` = ?", array($userId))->fetchArray();
+    $db_token = $this->db->query("SELECT * FROM `tokens` WHERE `userId` = $userId")->fetchArray();
 
     if (count($db_token) == 0) {
       return '{"code": 401, "status": "error", "message": "User is not logged in.", "action": null}';
@@ -151,8 +151,7 @@ class Auth
 
     if ($db_token['expiredDate'] >= date('Y-m-d H:i'))
     {
-      $token_refresh = $this->updateToken($userId);
-      return '{"code": 200, "status": "success", "message": "Token is still valid.", "action": "pass", "refreshedTokenData": '.$token_refresh.'}';
+      return '{"code": 200, "status": "success", "message": "Token is still valid.", "action": "pass"}';
     }
 
     return '{"code": 999, "status": "error", "message": "Something went terribly wrong during checking the token..."}';
