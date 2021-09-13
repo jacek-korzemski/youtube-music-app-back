@@ -3,17 +3,18 @@ import { AppContext } from "components/AppWrapper/AppWrapper";
 import { UserWrapper } from "./Wrappers";
 import LoginMenu from "./LoginMenu";
 import { api_url } from "Config";
+import Alert from "./Alert";
 
 const User = () => {
   const user = useContext(AppContext);
 
-  const tryToLogout = () => {
+  const tryToLogout = async () => {
     const formData = new FormData();
 
     formData.append("userId", user.user.userId);
     formData.append("token", user.user.tokenHash);
 
-    fetch(api_url + "/logout", { method: "POST", body: formData })
+    await fetch(api_url + "/logout", { method: "POST", body: formData })
       .then((res) => {
         if (!res.ok) {
           throw new Error("Sorry, something went wrong...");
@@ -25,6 +26,11 @@ const User = () => {
         user.setUser(false);
       })
       .then(() => sessionStorage.removeItem("user"))
+      .then(() => {
+        let _alerts = [...user.alerts];
+        _alerts.push(<Alert>Successfully loged out!</Alert>);
+        user.setAlerts(_alerts);
+      })
       .catch((err) => {
         user.setUser(false);
         console.log(err);
@@ -33,7 +39,6 @@ const User = () => {
 
   return (
     <>
-      {console.log(user)}
       {user?.user ? (
         <UserWrapper>
           <div className="left">

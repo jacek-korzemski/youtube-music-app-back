@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import SideBar from "./SideBar";
-import { Wrapper, ModalWrapper } from "./Wrappers";
+import { Wrapper, ModalWrapper, AlertsWrapper } from "./Wrappers";
 import NewClips from "views/NewClips";
 import Clip from "views/Clip";
 import Channels from "views/Channels";
@@ -13,6 +13,7 @@ export const AppContext = React.createContext(false);
 const AppWrapper = () => {
   const [user, setUser] = useState(false);
   const [modal, setModal] = useState(false);
+  const [alerts, setAlerts] = useState([]);
 
   const checkUserInSession = (str) => {
     try {
@@ -33,8 +34,20 @@ const AppWrapper = () => {
     }
   }, []);
 
+  useEffect(() => {
+    if (window.alertTimeout) {
+      clearTimeout(window.alertTimeout);
+    }
+
+    window.alertTimeout = setTimeout(() => {
+      let _alerts = [...alerts];
+      _alerts.shift();
+      setAlerts(_alerts);
+    }, 5000);
+  }, [alerts]);
+
   return (
-    <AppContext.Provider value={{ user: user, setUser: setUser, modal: modal, setModal: setModal }}>
+    <AppContext.Provider value={{ user: user, setUser: setUser, modal: modal, setModal: setModal, alerts: alerts, setAlerts: setAlerts }}>
       <Router>
         <Wrapper>
           <SideBar />
@@ -59,6 +72,13 @@ const AppWrapper = () => {
           </Switch>
         </Wrapper>
         {modal && <ModalWrapper>{modal}</ModalWrapper>}
+        {alerts.length > 0 && (
+          <AlertsWrapper>
+            {alerts.map((elem, index) => (
+              <React.Fragment key={index}>{elem}</React.Fragment>
+            ))}
+          </AlertsWrapper>
+        )}
       </Router>
     </AppContext.Provider>
   );

@@ -3,19 +3,20 @@ import { LoginModalWrapper } from "./Wrappers";
 import { AppContext } from "./AppWrapper";
 import Button from "components/Button/Button";
 import { api_url } from "Config";
+import Alert from "./Alert";
 
 const LoginModal = () => {
   const user = useContext(AppContext);
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
 
-  const tryToLogin = () => {
+  const tryToLogin = async () => {
     const formData = new FormData();
 
     formData.append("username", username);
     formData.append("password", password);
 
-    fetch(api_url + "/login", { method: "POST", body: formData })
+    await fetch(api_url + "/login", { method: "POST", body: formData })
       .then((res) => {
         if (!res.ok) {
           throw new Error("Sorry, something went wrong...");
@@ -29,6 +30,11 @@ const LoginModal = () => {
       })
       .then(() => {
         user.setModal(false);
+      })
+      .then(() => {
+        let _alerts = [...user.alerts];
+        _alerts.push(<Alert>Successfully loged in!</Alert>);
+        user.setAlerts(_alerts);
       })
       .catch((err) => console.log(err));
   };
