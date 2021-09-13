@@ -305,3 +305,27 @@ export const RegisterModalWrapper = styled.div`
     }
   }
 `;
+
+export const AlertsWrapper = styled.div`
+  position: fixed;
+  top: 0;
+  right: 15px;
+  width: 150px;
+  z-index: 124;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: stretch;
+  padding: 15px;
+  gap: 15px;
+  .alert {
+    width: 100%;
+    padding: 10px;
+    background: rgba(0, 0, 0, 0.85);
+    border: 1px solid white;
+    box-shadow: 1px 2px 3px black;
+    border-radius: 10px;
+    color: white;
+    position: relative;
+  }
+`;
