@@ -12,9 +12,12 @@ import Index from "views/Index";
 export const AppContext = React.createContext(false);
 
 const AppWrapper = () => {
+  window.timeout = [];
   const [user, setUser] = useState(false);
   const [modal, setModal] = useState(false);
   const [alerts, setAlerts] = useState([]);
+
+  let alertProperties = null;
 
   const checkUserInSession = (str) => {
     try {
@@ -26,18 +29,14 @@ const AppWrapper = () => {
   };
 
   const pushAlert = (alert) => {
-    let alert_id = Math.random();
-    let new_alert = { id: alert_id, content: <Alert id={alert_id}>{alert}</Alert> };
-    let _alerts = [...alerts, new_alert];
-    setAlerts(_alerts);
-  };
+    const id = Math.floor(Math.random() * 999999999 + 1);
 
-  const dismissAlert = (id) => {
-    let _alerts = [...alerts];
-    let _remove_index = _alerts.findIndex((item) => item.id === id);
-    _alerts.splice(_remove_index, 1);
+    alertProperties = {
+      id,
+      content: alert,
+    };
 
-    setAlerts(_alerts);
+    setAlerts([...alerts, alertProperties]);
   };
 
   useEffect(() => {
@@ -51,9 +50,7 @@ const AppWrapper = () => {
   }, []);
 
   return (
-    <AppContext.Provider
-      value={{ user: user, setUser: setUser, modal: modal, setModal: setModal, pushAlert: pushAlert, dismissAlert: dismissAlert }}
-    >
+    <AppContext.Provider value={{ user: user, setUser: setUser, modal: modal, setModal: setModal, alerts: alerts, pushAlert: pushAlert }}>
       <Router>
         <Wrapper>
           <SideBar />
@@ -78,13 +75,9 @@ const AppWrapper = () => {
           </Switch>
         </Wrapper>
         {modal && <ModalWrapper>{modal}</ModalWrapper>}
-        {alerts.length > 0 && (
-          <AlertsWrapper>
-            {alerts.map((elem, index) => (
-              <React.Fragment key={index}>{elem.content}</React.Fragment>
-            ))}
-          </AlertsWrapper>
-        )}
+        <AlertsWrapper>
+          <Alert />
+        </AlertsWrapper>
       </Router>
     </AppContext.Provider>
   );
