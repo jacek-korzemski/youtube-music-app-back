@@ -1,7 +1,8 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import SideBar from "./SideBar";
 import { Wrapper, ModalWrapper, AlertsWrapper } from "./Wrappers";
+import Alert from "./Alert";
 import NewClips from "views/NewClips";
 import Clip from "views/Clip";
 import Channels from "views/Channels";
@@ -11,7 +12,6 @@ import Index from "views/Index";
 export const AppContext = React.createContext(false);
 
 const AppWrapper = () => {
-  const firstUpdate = useRef(true);
   const [user, setUser] = useState(false);
   const [modal, setModal] = useState(false);
   const [alerts, setAlerts] = useState([]);
@@ -25,6 +25,23 @@ const AppWrapper = () => {
     return true;
   };
 
+  const pushAlert = (alert) => {
+    let alert_id = Math.random();
+    let new_alert = { id: alert_id, content: <Alert id={alert_id}>{alert}</Alert> };
+    let _alerts = [...alerts, new_alert];
+    setAlerts(_alerts);
+  };
+
+  const dismissAlert = (id) => {
+    console.log(alerts);
+
+    let _alerts = [...alerts];
+    let _remove_index = _alerts.findIndex((item) => item.id === id);
+    _alerts.splice(_remove_index, 1);
+
+    setAlerts(_alerts);
+  };
+
   useEffect(() => {
     if (sessionStorage.getItem("user") && checkUserInSession(sessionStorage.getItem("user"))) {
       setUser(JSON.parse(sessionStorage.getItem("user")));
@@ -35,23 +52,14 @@ const AppWrapper = () => {
     }
   }, []);
 
-  useEffect(() => {
-    if (firstUpdate.current) {
-      firstUpdate.current = false;
-      return;
-    }
-    window.alertTimeout = setTimeout(() => {
-      let _alerts = [...alerts];
-      _alerts.shift();
-      setAlerts(_alerts);
-    }, 5000);
-
-    return () => clearTimeout(window.alertTimeout);
-    // eslint-disable-next-line
-  }, [alerts]);
+  // useEffect(() => {
+  //   console.log(alerts);
+  // }, [alerts]);
 
   return (
-    <AppContext.Provider value={{ user: user, setUser: setUser, modal: modal, setModal: setModal, alerts: alerts, setAlerts: setAlerts }}>
+    <AppContext.Provider
+      value={{ user: user, setUser: setUser, modal: modal, setModal: setModal, pushAlert: pushAlert, dismissAlert: dismissAlert }}
+    >
       <Router>
         <Wrapper>
           <SideBar />
@@ -79,7 +87,7 @@ const AppWrapper = () => {
         {alerts.length > 0 && (
           <AlertsWrapper>
             {alerts.map((elem, index) => (
-              <React.Fragment key={index}>{elem}</React.Fragment>
+              <React.Fragment key={index}>{elem.content}</React.Fragment>
             ))}
           </AlertsWrapper>
         )}

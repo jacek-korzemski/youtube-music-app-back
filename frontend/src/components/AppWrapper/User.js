@@ -3,7 +3,6 @@ import { AppContext } from "components/AppWrapper/AppWrapper";
 import { UserWrapper } from "./Wrappers";
 import LoginMenu from "./LoginMenu";
 import { api_url } from "Config";
-import Alert from "./Alert";
 
 const User = () => {
   const user = useContext(AppContext);
@@ -27,9 +26,7 @@ const User = () => {
       })
       .then(() => sessionStorage.removeItem("user"))
       .then(() => {
-        let _alerts = [...user.alerts];
-        _alerts.push(<Alert>Successfully loged out!</Alert>);
-        user.setAlerts(_alerts);
+        user.pushAlert("Successfully loged out!");
       })
       .catch((err) => {
         user.setUser(false);

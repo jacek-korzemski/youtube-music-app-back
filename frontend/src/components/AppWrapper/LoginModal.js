@@ -3,7 +3,6 @@ import { LoginModalWrapper } from "./Wrappers";
 import { AppContext } from "./AppWrapper";
 import Button from "components/Button/Button";
 import { api_url } from "Config";
-import Alert from "./Alert";
 
 const LoginModal = () => {
   const user = useContext(AppContext);
@@ -32,9 +31,7 @@ const LoginModal = () => {
         user.setModal(false);
       })
       .then(() => {
-        let _alerts = [...user.alerts];
-        _alerts.push(<Alert>Successfully loged in!</Alert>);
-        user.setAlerts(_alerts);
+        user.pushAlert("Successfully loged in!");
       })
       .catch((err) => console.log(err));
   };
