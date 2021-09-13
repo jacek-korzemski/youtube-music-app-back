@@ -33,8 +33,6 @@ const AppWrapper = () => {
   };
 
   const dismissAlert = (id) => {
-    console.log(alerts);
-
     let _alerts = [...alerts];
     let _remove_index = _alerts.findIndex((item) => item.id === id);
     _alerts.splice(_remove_index, 1);
@@ -51,10 +49,6 @@ const AppWrapper = () => {
       }
     }
   }, []);
-
-  // useEffect(() => {
-  //   console.log(alerts);
-  // }, [alerts]);
 
   return (
     <AppContext.Provider
