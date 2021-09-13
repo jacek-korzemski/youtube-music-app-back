@@ -30,6 +30,7 @@ const User = () => {
       })
       .catch((err) => {
         user.setUser(false);
+        user.addAlert("Successfully loged out!");
         console.log(err);
       });
   };

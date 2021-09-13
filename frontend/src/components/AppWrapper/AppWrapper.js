@@ -1,21 +1,20 @@
 import React, { useState, useEffect } from "react";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
-import { ToastContainer, toast } from "react-toastify";
 import SideBar from "./SideBar";
 import { Wrapper, ModalWrapper, AlertsWrapper } from "./Wrappers";
+import Alert from "./Alert";
 import NewClips from "views/NewClips";
 import Clip from "views/Clip";
 import Channels from "views/Channels";
 import Channel from "views/Channel";
 import Index from "views/Index";
-import "react-toastify/dist/ReactToastify.css";
-import "assets/toastyfy.css";
 
 export const AppContext = React.createContext(false);
 
 const AppWrapper = () => {
   const [user, setUser] = useState(false);
   const [modal, setModal] = useState(false);
+  const [alerts, setAlerts] = useState([]);
 
   const checkUserInSession = (str) => {
     try {
@@ -36,8 +35,12 @@ const AppWrapper = () => {
     }
   }, []);
 
-  const addAlert = (text) => {
-    toast(<>{text}</>);
+  const unmountHandler = () => {
+    setAlerts(alerts.slice(1));
+  };
+
+  const addAlert = (content) => {
+    setAlerts([...alerts, content]);
   };
 
   return (
@@ -67,7 +70,9 @@ const AppWrapper = () => {
         </Wrapper>
         {modal && <ModalWrapper>{modal}</ModalWrapper>}
         <AlertsWrapper>
-          <ToastContainer position="top-right" autoClose={5000} />
+          {alerts?.map((elem, index) => (
+            <Alert value={elem} key={index} onUnmount={unmountHandler} />
+          ))}
         </AlertsWrapper>
       </Router>
     </AppContext.Provider>
