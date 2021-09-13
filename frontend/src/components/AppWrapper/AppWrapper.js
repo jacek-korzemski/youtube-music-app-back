@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import SideBar from "./SideBar";
 import { Wrapper, ModalWrapper, AlertsWrapper } from "./Wrappers";
@@ -11,6 +11,7 @@ import Index from "views/Index";
 export const AppContext = React.createContext(false);
 
 const AppWrapper = () => {
+  const firstUpdate = useRef(true);
   const [user, setUser] = useState(false);
   const [modal, setModal] = useState(false);
   const [alerts, setAlerts] = useState([]);
@@ -35,15 +36,18 @@ const AppWrapper = () => {
   }, []);
 
   useEffect(() => {
-    if (window.alertTimeout) {
-      clearTimeout(window.alertTimeout);
+    if (firstUpdate.current) {
+      firstUpdate.current = false;
+      return;
     }
-
     window.alertTimeout = setTimeout(() => {
       let _alerts = [...alerts];
       _alerts.shift();
       setAlerts(_alerts);
     }, 5000);
+
+    return () => clearTimeout(window.alertTimeout);
+    // eslint-disable-next-line
   }, [alerts]);
 
   return (

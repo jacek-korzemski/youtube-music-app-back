@@ -306,11 +306,20 @@ export const RegisterModalWrapper = styled.div`
   }
 `;
 
+const loading = keyframes`
+  0% {
+    width: 0%;
+  }
+  100% {
+    width: 100%;
+  }
+`;
+
 export const AlertsWrapper = styled.div`
   position: fixed;
   top: 0;
   right: 15px;
-  width: 150px;
+  width: 300px;
   z-index: 124;
   display: flex;
   flex-direction: column;
@@ -327,5 +336,17 @@ export const AlertsWrapper = styled.div`
     border-radius: 10px;
     color: white;
     position: relative;
+    overflow: hidden;
+    &:after {
+      content: "";
+      height: 2px;
+      background: white;
+      position: absolute;
+      display: block;
+      bottom: 0;
+      left: 0;
+      animation: ${loading} 5s linear forwards;
+      border-radius: 10px;
+    }
   }
 `;
