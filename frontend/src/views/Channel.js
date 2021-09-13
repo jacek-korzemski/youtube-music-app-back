@@ -13,6 +13,7 @@ const Channel = () => {
   const { id } = useParams();
 
   useEffect(() => {
+    setData(false);
     fetch(api_url + "/getChannelById?" + new URLSearchParams({ id: id }), { method: "GET" })
       .then((res) => {
         if (!res.ok) {
@@ -29,7 +30,7 @@ const Channel = () => {
         console.log(err);
       });
     // eslint-disable-next-line
-  }, []);
+  }, [id]);
 
   return (
     <Page title={data ? data[0].channel_title : undefined}>

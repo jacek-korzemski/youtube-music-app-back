@@ -25,3 +25,9 @@ route('GET', '^/getVideoById$', function() {
   if (!isset($_GET['id'])) { $_GET['id'] = 1; }
   echo $s->getVideo($_GET['id']);
 });
+
+route('POST', '^/getMultipleChannelsById$', function() {
+  $s = new Browse();
+  header('Content-Type: application/json');
+  echo $s->getMultipleChannelsById($_POST['ids']);
+});

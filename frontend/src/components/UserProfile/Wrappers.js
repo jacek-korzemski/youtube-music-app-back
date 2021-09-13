@@ -42,9 +42,35 @@ export const EditWrapper = styled.div`
   }
   .blank {
     padding: 5px 15px;
-    background: rgba(0, 0, 0, 0.23);
+    background: rgba(0, 0, 0, 0.07);
     display: inline-block;
     border-radius: 5px;
+    color: rgba(0, 0, 0, 0.5);
     margin: 0;
+  }
+  .channels {
+    display: flex;
+    justify-content: flex-start;
+    align-items: stretch;
+    flex-wrap: wrap;
+    gap: 10px;
+    .channel {
+      display: block;
+      padding: 6px;
+      border-radius: 6px;
+      background: rgba(0, 0, 0, 0.23);
+      a {
+        color: black;
+        text-decoration: none;
+        display: inline-block;
+        margin-right: 7px;
+      }
+      .cancel {
+        cursor: pointer;
+        &:hover {
+          color: red;
+        }
+      }
+    }
   }
 `;

@@ -36,7 +36,24 @@ class Browse
     }
     else
     {
-      return '{"code": 200, "404": "error", "message": "Cannot find anything in channel with id: '.$id.'", "items": '.json_encode($data).'}';
+      return '{"code": 404, "status": "error", "message": "Cannot find anything in channel with id: '.$id.'", "items": '.json_encode($data).'}';
+    }
+  }
+
+  public function getMultipleChannelsById($string_to_parse)
+  {
+    if (!isset($string_to_parse))
+    {
+      return '{"code": 404, "status": "error", "message": "Missing params, nothing to show."}';
+    }
+    $data = $this->db->query("SELECT * FROM `channels` WHERE id IN ($string_to_parse)")->fetchAll();
+    if (count($data) > 0)
+    {
+      return '{"code": 200, "status": "success", "message": "Successfully fetched channels by ids: '.$string_to_parse.'", "items": '.json_encode($data).'}';
+    }
+    else
+    {
+      return '{"code": 404, "status": "error", "message": "Cannot find anything in channels with ids: '.$string_to_parse.'", "items": '.json_encode($data).'}';
     }
   }
 

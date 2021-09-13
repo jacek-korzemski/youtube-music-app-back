@@ -3,11 +3,12 @@ import { EditWrapper } from "./Wrappers";
 import { AppContext } from "components/AppWrapper/AppWrapper";
 import Button from "components/Button/Button";
 import { api_url } from "Config";
+import Channels from "./Channels";
 
 const Edit = () => {
   const app = useContext(AppContext);
   const [displayName, setDisplayName] = useState("");
-  const [data, setData] = useState({});
+  const [data, setData] = useState(false);
 
   useEffect(() => {
     const formData = new FormData();
@@ -24,8 +25,11 @@ const Edit = () => {
         }
       })
       .then((res) => {
-        setData(res);
+        setData(res.data);
         setDisplayName(res.data.display_name);
+      })
+      .then(() => {
+        console.log(data);
       })
       .catch((err) => console.log(err));
     // eslint-disable-next-line
@@ -48,16 +52,12 @@ const Edit = () => {
         <input type="text" name="display_name" value={displayName} onChange={(e) => setDisplayName(e.target.value)} />
         <p className="section-title">Your subscribed channels:</p>
         <div className="channels">
-          {data && data.channels ? (
+          {data && data.subscribed_channels ? (
             <>
-              {data.channels.map((elem, index) => (
-                <div className="channel" key={index}>
-                  {elem}
-                </div>
-              ))}
+              <Channels channels={data?.subscribed_channels} />
             </>
           ) : (
-            <p className="blank">No subscribed channels</p>
+            <>No subscribed channels</>
           )}
         </div>
         <p className="section-title">Your Playlists:</p>
