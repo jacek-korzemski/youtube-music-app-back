@@ -35,12 +35,26 @@ const AppWrapper = () => {
     }
   }, []);
 
+  const randomIdForAlertGenerator = (length) => {
+    let result = "";
+    let characters = "abcdefghijklmnopqrstuvwxyz0123456789";
+    let charactersLength = characters.length;
+    for (let i = 0; i < length; i++) {
+      result += characters.charAt(Math.floor(Math.random() * charactersLength));
+    }
+    return result;
+  };
+
   const unmountHandler = () => {
-    setAlerts(alerts.slice(1));
+    let _alerts = [...alerts];
+    _alerts.shift();
+    setAlerts(_alerts);
   };
 
   const addAlert = (content) => {
-    setAlerts([...alerts, content]);
+    let _alerts = [...alerts];
+    _alerts.push({ id: randomIdForAlertGenerator(64), content: content });
+    setAlerts(_alerts);
   };
 
   return (
@@ -70,8 +84,8 @@ const AppWrapper = () => {
         </Wrapper>
         {modal && <ModalWrapper>{modal}</ModalWrapper>}
         <AlertsWrapper>
-          {alerts?.map((elem, index) => (
-            <Alert value={elem} key={index} onUnmount={unmountHandler} />
+          {alerts?.map((elem) => (
+            <Alert value={elem.content} key={elem.id} onUnmount={unmountHandler} />
           ))}
         </AlertsWrapper>
       </Router>
