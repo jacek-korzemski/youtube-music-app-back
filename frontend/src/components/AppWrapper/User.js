@@ -26,7 +26,7 @@ const User = () => {
       })
       .then(() => sessionStorage.removeItem("user"))
       .then(() => {
-        user.pushAlert("Successfully loged out!");
+        user.addAlert("Successfully loged out!");
       })
       .catch((err) => {
         user.setUser(false);

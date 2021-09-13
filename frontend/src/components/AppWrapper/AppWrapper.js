@@ -1,23 +1,21 @@
 import React, { useState, useEffect } from "react";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import { ToastContainer, toast } from "react-toastify";
 import SideBar from "./SideBar";
 import { Wrapper, ModalWrapper, AlertsWrapper } from "./Wrappers";
-import Alert from "./Alert";
 import NewClips from "views/NewClips";
 import Clip from "views/Clip";
 import Channels from "views/Channels";
 import Channel from "views/Channel";
 import Index from "views/Index";
+import "react-toastify/dist/ReactToastify.css";
+import "assets/toastyfy.css";
 
 export const AppContext = React.createContext(false);
 
 const AppWrapper = () => {
-  window.timeout = [];
   const [user, setUser] = useState(false);
   const [modal, setModal] = useState(false);
-  const [alerts, setAlerts] = useState([]);
-
-  let alertProperties = null;
 
   const checkUserInSession = (str) => {
     try {
@@ -26,17 +24,6 @@ const AppWrapper = () => {
       return false;
     }
     return true;
-  };
-
-  const pushAlert = (alert) => {
-    const id = Math.floor(Math.random() * 999999999 + 1);
-
-    alertProperties = {
-      id,
-      content: alert,
-    };
-
-    setAlerts([...alerts, alertProperties]);
   };
 
   useEffect(() => {
@@ -49,8 +36,12 @@ const AppWrapper = () => {
     }
   }, []);
 
+  const addAlert = (text) => {
+    toast(<>{text}</>);
+  };
+
   return (
-    <AppContext.Provider value={{ user: user, setUser: setUser, modal: modal, setModal: setModal, alerts: alerts, pushAlert: pushAlert }}>
+    <AppContext.Provider value={{ user: user, setUser: setUser, modal: modal, setModal: setModal, addAlert: addAlert }}>
       <Router>
         <Wrapper>
           <SideBar />
@@ -76,7 +67,7 @@ const AppWrapper = () => {
         </Wrapper>
         {modal && <ModalWrapper>{modal}</ModalWrapper>}
         <AlertsWrapper>
-          <Alert />
+          <ToastContainer position="top-right" autoClose={5000} />
         </AlertsWrapper>
       </Router>
     </AppContext.Provider>

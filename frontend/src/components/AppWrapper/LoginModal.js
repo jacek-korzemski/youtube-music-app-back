@@ -31,7 +31,7 @@ const LoginModal = () => {
         user.setModal(false);
       })
       .then(() => {
-        user.pushAlert("Successfully loged in!");
+        user.addAlert("Successfully loged in!");
       })
       .catch((err) => console.log(err));
   };
