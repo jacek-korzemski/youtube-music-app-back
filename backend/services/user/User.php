@@ -24,4 +24,54 @@ class User
     }
     return '{"code": 401, "status": "error", "message": "Cannot authenticate user."}';
   }
+
+  public function subscribeChannel()
+  {
+
+  }
+
+  public function unsubscribeChannel()
+  {
+
+  }
+
+  public function createPlaylists()
+  {
+
+  }
+
+  public function removePlaylist()
+  {
+
+  }
+
+  public function addRecordToPlaylist()
+  {
+
+  }
+
+  public function removeRecordFromPlaylist()
+  {
+    
+  }
+
+  public function voteForRecord()
+  {
+
+  }
+
+  public function removeVoteFromRecord()
+  {
+
+  }
+
+  public function addReview()
+  {
+
+  }
+
+  public function removeReview()
+  {
+
+  }
 }
