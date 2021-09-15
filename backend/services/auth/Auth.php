@@ -90,18 +90,18 @@ class Auth
     {      
       if ($user['password'] == md5($password)) 
       {
-        $token = $this->db->query("SELECT * FROM `tokens` WHERE `userId` = ?", array($user['id']))->fetchArray();
+        $token = $this->db->query("SELECT * FROM `tokens` WHERE `user_id` = ?", array($user['id']))->fetchArray();
         if (!count($token) == 0) 
         {
           $this->db->query('DELETE FROM `tokens` WHERE `tokens`.`id` = ?', array($token['id']));
         }
         $this->updateToken($user['id']);
-        $token = $this->db->query("SELECT * FROM `tokens` WHERE `userId` = ?", array($user['id']))->fetchArray();
+        $token = $this->db->query("SELECT * FROM `tokens` WHERE `user_id` = ?", array($user['id']))->fetchArray();
         $return = (object) [
-          'userId'      => $token['userId'],
+          'userId'      => $token['user_id'],
           'tokenId'     => $token['id'],
           'tokenHash'   => $token['token'],
-          'tokenExpire' => $token['expiredDate']
+          'tokenExpire' => $token['expired_date']
         ];
         return '{"code": 200, "status": "success", "message": "successfully loged in.", "data": '.json_encode($return).'}';   
       } 
@@ -115,7 +115,7 @@ class Auth
 
   public function logout($userId, $client_token)
   {
-    $db_token = $this->db->query("SELECT * FROM `tokens` WHERE userId = '$userId'")->fetchArray();
+    $db_token = $this->db->query("SELECT * FROM `tokens` WHERE `user_id` = '$userId'")->fetchArray();
 
     if (count($db_token) == 0) {
       return '{"code": 401, "status": "error", "message": "User was already logged out."}';
@@ -137,19 +137,19 @@ class Auth
 
   public function checkToken($userId, $client_token)
   {
-    $db_token = $this->db->query("SELECT * FROM `tokens` WHERE `userId` = $userId")->fetchArray();
+    $db_token = $this->db->query("SELECT * FROM `tokens` WHERE `user_id` = $userId")->fetchArray();
 
     if (count($db_token) == 0) {
       return '{"code": 401, "status": "error", "message": "User is not logged in.", "action": null}';
     }
 
-    if ($db_token['expiredDate'] < date('Y-m-d H:i:s'))
+    if ($db_token['expired_date'] < date('Y-m-d H:i:s'))
     {
       $this->db->query('DELETE FROM `tokens` WHERE `tokens`.`id` = ?', array($db_token['id']));
       return '{"code": 401, "status": "error", "message": "Token has expired. User logged out.", "action": "logout"}';
     }
 
-    if ($db_token['expiredDate'] >= date('Y-m-d H:i'))
+    if ($db_token['expired_date'] >= date('Y-m-d H:i'))
     {
       return '{"code": 200, "status": "success", "message": "Token is still valid.", "action": "pass"}';
     }
@@ -159,6 +159,9 @@ class Auth
 
   private function updateToken($userId)
   {
+    // NEED FIX!
+    // NEED TO CHECK CURRENT TOKEN FIRSTLY!
+    //
     $randHash = md5(rand(10000, 99999));
     if (isset($_SERVER['TOKEN_EXPIRE_TIME']))
     {
@@ -170,7 +173,7 @@ class Auth
     }
     $expire = date('Y-m-d H:i', $timestamp);
     $this->db->query(
-      'INSERT into `tokens` (`id`, `userId`, `token`, `expiredDate`) VALUES (?, ?, ?, ?)',
+      'INSERT into `tokens` (`id`, `user_id`, `token`, `expired_date`) VALUES (?, ?, ?, ?)',
       array(null, $userId, $randHash, $expire)
     );
     return '{"code": 200, "status": "success", "message": "Token successfully updated"}';
