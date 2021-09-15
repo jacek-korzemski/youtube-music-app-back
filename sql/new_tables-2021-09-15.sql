@@ -7,8 +7,7 @@
 CREATE TABLE `subscriptions` (
   `id` int(11) NOT NULL,
   `user_id` int(11) NOT NULL,
-  `channel_id` int(11) NOT NULL,
-  `channel_title` varchar(255) NOT NULL
+  `channel_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 ALTER TABLE `subscriptions`
