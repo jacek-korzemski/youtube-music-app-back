@@ -41,3 +41,27 @@ route('POST', '^/removeRecordFromPlaylist$', function() {
   header('Content-Type: application/json');
   echo $s->getUserData($_POST['userId'], $_POST['token'], $_POST['playlistRecordId']);
 });
+
+route('POST', '^/voteForRecord$', function() {
+  $s = new User();
+  header('Content-Type: application/json');
+  echo $s->getUserData($_POST['userId'], $_POST['token'], $_POST['recordId'], $_POST['vote']);
+});
+
+route('POST', '^/removeVoteFromRecord$', function() {
+  $s = new User();
+  header('Content-Type: application/json');
+  echo $s->getUserData($_POST['userId'], $_POST['token'], $_POST['voteRecordId']);
+});
+
+route('POST', '^/addReview$', function() {
+  $s = new User();
+  header('Content-Type: application/json');
+  echo $s->getUserData($_POST['userId'], $_POST['token'], $_POST['revordId'], $_POST['content']);
+});
+
+route('POST', '^/removeReview$', function() {
+  $s = new User();
+  header('Content-Type: application/json');
+  echo $s->getUserData($_POST['userId'], $_POST['token'], $_POST['reviewId']);
+});

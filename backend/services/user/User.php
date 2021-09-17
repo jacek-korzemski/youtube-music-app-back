@@ -80,24 +80,44 @@ class User
     return '{"code": 200, "status": "success", "message": "Successfully removed record from playlist."}';
   }
 
-  public function voteForRecord()
+  public function voteForRecord($userId, $clientToken, $recordId, $vote)
   {
-
+    if (!$this->validation($userId, $clientToken))
+    {
+      return '{"code": 401, "status": "error", "message": "Cannot authenticate user."}';
+    }
+    $this->db->query("INSERT INTO `votes` (`id`, `user_id`, `record_id`, `vote`) VALUES (NULL, '$userId', '$recordId', '$vote')");
+    return '{"code": 200, "status": "success", "message": "Successfully voted for record."}';
   }
 
-  public function removeVoteFromRecord()
+  public function removeVoteFromRecord($userId, $clientToken, $voteRecordId)
   {
-
+    if (!$this->validation($userId, $clientToken))
+    {
+      return '{"code": 401, "status": "error", "message": "Cannot authenticate user."}';
+    }
+    $this->db->query("DELETE FROM `votes` WHERE `id` = '$voteRecordId'");
+    return '{"code": 200, "status": "success", "message": "Successfully removed vote from record."}';
   }
 
-  public function addReview()
+  public function addReview($userId, $clientToken, $recordId, $content)
   {
-
+    if (!$this->validation($userId, $clientToken))
+    {
+      return '{"code": 401, "status": "error", "message": "Cannot authenticate user."}';
+    }
+    $this->db->query("INSERT INTO `reviews` (`id`, `user_id`, `record_id`, `content`) VALUES (NULL, '$userId', '$recordId', '$content')");
+    return '{"code": 200, "status": "success", "message": "Successfully posted review."}';
   }
 
-  public function removeReview()
+  public function removeReview($userId, $clientToken, $reviewId)
   {
-
+    if (!$this->validation($userId, $clientToken))
+    {
+      return '{"code": 401, "status": "error", "message": "Cannot authenticate user."}';
+    }
+    $this->db->query("DELETE FROM `reviews` WHERE `id` = '$reviewId'");
+    return '{"code": 200, "status": "success", "message": "Successfully removed review."}';
   }
 
   private function validation($userId, $clientToken)
