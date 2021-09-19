@@ -227,7 +227,6 @@ export const LoginModalWrapper = styled.div`
   justify-content: center;
   align-items: center;
   margin-top: -100px;
-  animation-delay: 2.6s;
   animation: 0.3s ${fadeInDrop} ease-out forwards;
   position: relative;
   p {
@@ -264,7 +263,6 @@ export const RegisterModalWrapper = styled.div`
   justify-content: center;
   align-items: stretch;
   margin-top: -100px;
-  animation-delay: 2.6s;
   animation: 0.3s ${fadeInDrop} ease-out forwards;
   position: relative;
   form {
@@ -315,6 +313,15 @@ const loading = keyframes`
   }
 `;
 
+const cameIn = keyframes`
+  0% {
+    transform: translateX(150%);
+  }
+  100% {
+    transform: translateX(0);
+  }
+`;
+
 export const AlertsWrapper = styled.div`
   position: fixed;
   top: 0;
@@ -328,6 +335,7 @@ export const AlertsWrapper = styled.div`
   padding: 15px;
   gap: 15px;
   .alert {
+    transition: all 0.3s;
     width: 100%;
     padding: 10px;
     background: rgba(0, 0, 0, 0.85);
@@ -337,6 +345,7 @@ export const AlertsWrapper = styled.div`
     color: white;
     position: relative;
     overflow: hidden;
+    animation: 0.3s ${cameIn} ease-out forwards;
     &:after {
       content: "";
       height: 2px;
