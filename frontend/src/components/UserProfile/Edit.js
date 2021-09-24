@@ -5,6 +5,7 @@ import Button from "components/Button/Button";
 import { api_url } from "Config";
 import Channels from "./Channels";
 import Loading from "components/Loading/LoadingBlack";
+import updateToken from "helpers/updateToken";
 
 const Edit = () => {
   const app = useContext(AppContext);
@@ -12,27 +13,31 @@ const Edit = () => {
   const [data, setData] = useState(false);
 
   useEffect(() => {
-    const formData = new FormData();
+    updateToken(app).then((newToken) => {
+      app.updateToken(newToken);
+      const formData = new FormData();
 
-    formData.append("userId", app.user.userId);
-    formData.append("token", app.user.tokenHash);
+      formData.append("userId", app.user.userId);
+      formData.append("token", newToken.token);
 
-    fetch(api_url + "/getUserData", { method: "POST", body: formData })
-      .then((res) => {
-        if (!res.ok) {
-          throw new Error("Sorry, something went wrong...");
-        } else {
-          return res.json();
-        }
-      })
-      .then((res) => {
-        setData(res.data);
-        setDisplayName(res.data.display_name);
-      })
-      .then(() => {
-        console.log(data);
-      })
-      .catch((err) => console.log(err));
+      fetch(api_url + "/getUserData", { method: "POST", body: formData })
+        .then((res) => {
+          if (!res.ok) {
+            throw new Error("Sorry, something went wrong...");
+          } else {
+            return res.json();
+          }
+        })
+        .then((res) => {
+          setData(res.data);
+          setDisplayName(res.data.display_name);
+        })
+        .then(() => {
+          console.log(data);
+        })
+        .catch((err) => console.log(err));
+    });
+
     // eslint-disable-next-line
   }, []);
 

@@ -122,8 +122,8 @@ class User
 
   private function validation($userId, $clientToken)
   {
-    $validation = json_decode($this->auth->checkToken($userId, $clientToken));
-    if ($validation && $validation->code == 200)
+    $validation = $this->auth->checkToken($userId, $clientToken);
+    if ($validation)
     {
       return true;
     }

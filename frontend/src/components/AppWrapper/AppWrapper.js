@@ -57,8 +57,19 @@ const AppWrapper = () => {
     setAlerts(_alerts);
   };
 
+  const updateToken = (newToken) => {
+    setUser({
+      tokenExpire: newToken.expired_date,
+      tokenHash: newToken.token,
+      tokenId: newToken.id,
+      userId: user.userId,
+    });
+  };
+
   return (
-    <AppContext.Provider value={{ user: user, setUser: setUser, modal: modal, setModal: setModal, addAlert: addAlert }}>
+    <AppContext.Provider
+      value={{ user: user, setUser: setUser, modal: modal, setModal: setModal, addAlert: addAlert, updateToken: updateToken }}
+    >
       <Router>
         <Wrapper>
           <SideBar />
