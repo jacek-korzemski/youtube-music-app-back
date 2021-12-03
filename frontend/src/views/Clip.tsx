@@ -13,7 +13,7 @@ const Clip = () => {
   const { id }: any = useParams();
 
   useEffect(() => {
-    fetch(api_url + "/getVideoById?" + new URLSearchParams({ id: id }), { method: "GET" })
+    fetch(api_url + "/getVideoById/" + id, { method: "GET" })
       .then((res) => {
         if (!res.ok) {
           throw new Error("Error while communicating with API.");
@@ -22,7 +22,7 @@ const Clip = () => {
         }
       })
       .then((res) => {
-        setData(res.items[0]);
+        setData(res[0]);
         setLoading(false);
       })
       .catch((err) => {

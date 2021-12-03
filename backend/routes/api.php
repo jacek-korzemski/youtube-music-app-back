@@ -19,6 +19,10 @@ Route::get("/getNewVideos", function() {
     return Music::orderBy('published_at', 'desc')->take(100)->get();
 });
 
+Route::get("/getVideoById/{id}", function($id) {
+    return Music::where('id', $id)->get();
+});
+
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
