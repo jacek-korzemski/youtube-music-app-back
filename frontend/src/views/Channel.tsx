@@ -16,7 +16,7 @@ const Channel = () => {
 
   useEffect(() => {
     setLoading(true);
-    fetch(api_url + "/getChannelById?" + new URLSearchParams({ id: id }), { method: "GET" })
+    fetch(api_url + "/getChannelById/" + id, { method: "GET" })
       .then((res) => {
         if (!res.ok) {
           throw new Error("Error while communication with API.");
@@ -25,8 +25,8 @@ const Channel = () => {
         }
       })
       .then((res) => {
-        setData(res.items);
-        setChannelTitle(res.items[0].channel_title);
+        setData(res);
+        setChannelTitle(res[0].channel_title);
         setLoading(false);
       })
       .catch((err) => {
