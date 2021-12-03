@@ -19,7 +19,7 @@ const NewClips = () => {
         }
       })
       .then((res) => {
-        setData(res.items);
+        setData(res);
         setLoading(false);
       })
       .catch((err) => {
