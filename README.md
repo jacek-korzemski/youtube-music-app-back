@@ -4,7 +4,7 @@ This is my "student project". Fullstack application with PHP backend and React f
 
 To instal an app:
 
-1. setup MySQL database - you can use `sql/install.sql` file to build it.
+1. setup MySQL database - the preffered way, is to use Laravel migration tools, but you can also use `sql/install.sql` file to build it. The databases created with SQL query should be compatybile with the one made with Laravel ```artisan:migrate```.
 2. duplicate file `backend/.env.example` ane rename it to `backend/.env`
 3. fill your `backend/.env` file with correct data (mySql connection, youtube API key)
 4. fill database with your favorite channels, u can do it via CLI - just go to `backend/cli` and run
