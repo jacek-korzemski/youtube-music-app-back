@@ -33,6 +33,10 @@ Route::get('/getChannelById/{id}', function($id) {
     return Music::where('channel_id', $channel_id)->get();
 });
 
+Route::get('/search/{s}', function($s) {
+    return Music::where('title', 'like', '%'.$s.'%')->get();
+});
+
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
