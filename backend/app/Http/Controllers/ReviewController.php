@@ -9,23 +9,39 @@ class ReviewController extends Controller
 {
     public function store(Request $request)
     {
-        $body = json_decode($request->getContent());
+        try
+        {
+            $body = json_decode($request->getContent());
+        }
+        catch (Exception $e)
+        {
+            error_log($e->getMessage());
+            exit;
+        }
 
         if ($body->secret != env('GLOBAL_USER_SECRET')) 
         {
+            error_log("Invalid secret!");
             echo 'Critical error!';
-            return false;
+            exit;
         }
- 
-        $review = new Review;
- 
-        $review->userId = $body->userId;
-        $review->userName = $body->userName;
-        $review->videoId = $body->videoId;
-        $review->content = $body->content;
- 
-        $review->save();
 
-        echo '{"message": "ok"}';
+        try
+        {
+            $review = new Review;
+ 
+            $review->userId = $body->userId;
+            $review->userName = $body->userName;
+            $review->videoId = $body->videoId;
+            $review->content = $body->content;
+
+            $review->save();
+            return '{"message": "ok"}';
+        }
+        catch (Exception $e)
+        {
+            error_log($e->getMessage());
+            exit;
+        }
     }
 }
