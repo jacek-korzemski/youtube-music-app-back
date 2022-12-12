@@ -1,7 +1,6 @@
 <?php
 
-use App\Models\Music;
-use App\Models\Channels;
+use App\Models\Review;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ReviewController;
@@ -18,3 +17,7 @@ use App\Http\Controllers\ReviewController;
 */
 
 Route::post('/addReview', [ReviewController::class, 'store']);
+
+Route::get('/getReviews/{id}', function($id) {
+  return Review::where('videoId', $id)->get();
+});
