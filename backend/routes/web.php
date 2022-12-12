@@ -47,7 +47,3 @@ Route::get('/search/{s}', function($s) {
 Route::get('/getRandomFromChannel/{id}', function($id) {
     return Music::where('channel_id', $id)->inRandomOrder()->limit(10)->get();
 });
-
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
-});
