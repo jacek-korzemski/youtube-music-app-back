@@ -16,8 +16,10 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+// Mordo, zjezbałeś - ten plik nie działa, API się chowa w web.php...
+
 Route::get("/getNewVideos", function() {
-    return Music::orderBy('published_at', 'desc')->take(100)->get();
+    return Music::where('hide', 1)->orderBy('published_at', 'desc')->take(100)->get();
 });
 
 Route::get("/getVideoById/{id}", function($id) {
@@ -35,6 +37,10 @@ Route::get('/getChannelById/{id}', function($id) {
 
 Route::get('/search/{s}', function($s) {
     return Music::where('title', 'like', '%'.$s.'%')->get();
+});
+
+Route::get('/randomFromChannel/{id}', function($id) {
+    return Music::where('channel_id', $id)->inRandomOrder()->limit(5)->get();
 });
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {

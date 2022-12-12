@@ -113,12 +113,12 @@ function cli_clear_404()
 
 function cli_test_url($url)
 {
-  if (checkUrl($url))
+  if (!checkUrl($url))
   {
-    echo 'OK';
+    echo 'FAIL';
   }
   else
   {
-    echo "FAIL";
+    echo "OK";
   }
 }
